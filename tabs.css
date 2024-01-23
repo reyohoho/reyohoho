@@ -1,0 +1,35 @@
+.tabs>input[type="radio"] {
+  display: none;
+}
+
+.tabs>div {
+  display: none;
+}
+
+#tab-btn-1:checked~#content-1,
+#tab-btn-2:checked~#content-2,
+
+.tabs>label {
+  display: inline-block;
+  user-select: none;
+  padding: 2px 18px;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+  cursor: pointer;
+  position: relative;
+  top: 5px;
+  font-family: Neucha, solid;
+  font-size: 18px;
+  font-weight: 1;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.tabs>input[type="radio"]:checked+label {
+  background-color: white;
+  color: black;
+}
+
+.tabs>input[type="radio"]:checked:after+label {
+  background-color: black;
+  color: white;
+}

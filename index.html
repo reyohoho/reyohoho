@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="Wed, 21 Oct 2022 07:28:00 GMT">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="tabs.css">
+    <link rel="stylesheet" href="drawer.css">
+    <link rel="stylesheet" href="stars.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Neucha:wght@300;400&dispay=block"
+        rel="stylesheet">
+    <title>ReYohoho - онлайн просмотр кино и сериалов</title>
+    <meta name="description" content="ReYohoho">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="icons/manifest.json">
+    <link rel="mask-icon" href="icons/safari-pinned-tab.svg">
+    <meta name="apple-mobile-web-app-title" content="ReYohoho">
+    <meta name="application-name" content="ReYohoho">
+    <meta name="theme-color" content="black">
+
+    <link rel="stylesheet" type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+    <style>
+        .index,
+        .contact,
+        .webmaster,
+        body {
+            background: black;
+            font-family: Neucha, sans-serif;
+            color: #fff;
+            margin: 50px auto 60px;
+            font-size: 14px;
+        }
+
+        .index,
+        .play {
+            overflow: auto;
+        }
+
+        .online {
+            overflow-x: hidden;
+        }
+
+        .play,
+        .play iframe,
+        .play .col-xs-12 {
+            width: 100%;
+        }
+
+        .play,
+        .play iframe,
+        .play .col-xs-12,
+        .online,
+        .online iframe,
+        .online .col-xs-12,
+        .online .col-sm-6,
+        .online .col-lg-4,
+        .torrent {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        a {
+            text-decoration: none;
+            outline: none;
+        }
+
+        a .disabled {
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .navbar {
+            z-index: 3;
+            border: 0;
+            font-size: 16px;
+            margin-left: 6%;
+            margin-right: 0px;
+        }
+
+        .navbar-inverse {
+            background: transparent;
+        }
+
+        .navbar-inverse .navbar-brand {
+            font-weight: 700;
+            text-shadow: 1px 1px 2px #000, 0 0 1em #ccbbcf;
+            font-size: 20px;
+        }
+
+        .navbar-inverse .navbar-brand:first-letter {
+            text-transform: uppercase;
+        }
+
+        .navbar-inverse .navbar-toggle:focus,
+        .navbar-inverse .navbar-toggle:hover {
+            background-color: black;
+        }
+
+        .container .text-muted {
+            margin: 15px 0;
+        }
+
+        .container .text-muted span {
+            color: #ccc;
+        }
+
+        .index-seo {
+            color: black;
+            text-align: justify;
+        }
+
+        .footer {
+            z-index: 2;
+            position: absolute;
+            bottom: 5%;
+            width: 100%;
+            height: auto;
+            background-color: black
+        }
+
+        .search-line {
+            z-index: 3;
+            position: absolute;
+            width: 90%;
+            margin-top: 10%;
+            height: 74%;
+            margin-left: 5%;
+            margin-right: 5%;
+        }
+
+        .search-line .brand {
+            color: #fff;
+            font-size: 70px;
+            font-weight: 700;
+            margin: 0 auto;
+            text-align: center;
+            text-shadow: 1px 1px 2px #000, 0 0 1em black;
+        }
+
+        .search-line .brand:first-letter {
+            text-transform: uppercase;
+        }
+
+        .search-line .form {
+            margin: 20px auto;
+            width: 100%;
+            text-align: center;
+        }
+
+        .search-line .form input,
+        .moderator input,
+        .moderator textarea,
+        .movie-soc textarea {
+            color: #fff;
+            background: black;
+            border: 2px black solid;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 30px auto 0;
+            font-size: 16px;
+        }
+
+        .search-line input:hover,
+        .moderator input:hover,
+        .moderator textarea:hover,
+        .movie-soc textarea:hover {
+            border: 2px white solid;
+            background: black;
+        }
+
+        a {
+            color: #fff;
+        }
+
+        a:hover {
+            color: #fff;
+            text-decoration: none;
+            outline: none;
+        }
+
+        a:focus {
+            color: #ccc;
+            text-decoration: none;
+            outline: none;
+        }
+
+        .player .buttons {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            margin: 0 8px 8px;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        .player .buttons:hover {
+            opacity: 0.9;
+        }
+
+        .player .title {
+            margin: 7px 10px 0;
+        }
+
+        .player .translate,
+        .player .seasons {
+            margin: 0 10px;
+        }
+
+        .btn {
+            border-radius: 0 !important;
+            background: rgba(0, 0, 0, 0.4) !important;
+            padding: 6px 0 !important;
+            overflow: hidden;
+        }
+
+        .btn-group-justified .btn-group {
+            padding: 2px !important;
+        }
+
+        .navbar-drawer {
+            display: none;
+        }
+
+        @media only screen and (max-width: 1200px) {
+
+            .footer,
+            .navbar,
+            .index-seo {
+                display: none;
+            }
+
+            .navbar-drawer {
+                display: block;
+            }
+
+            .search-line {
+                left: 0;
+                top: 5%;
+                margin: 0 !important;
+                width: 100%;
+            }
+        }
+
+
+        ::-webkit-input-placeholder {
+            color: #999;
+        }
+
+        ::-moz-placeholder {
+            color: #999;
+        }
+
+        :-ms-input-placeholder {
+            color: #999;
+        }
+
+        :-moz-placeholder {
+            color: #999;
+        }
+
+        #snackbar {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 50%;
+            font-size: 30px;
+        }
+
+        #snackbar.show {
+            visibility: visible;
+        }
+
+        .ui-autocomplete {
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .ui-menu {
+            color: white;
+            border-radius: 5px;
+            background-color: black;
+            line-height: 200%;
+            font-size: 18px;
+        }
+
+        .ui-menu .ui-menu-item {
+            color: white;
+            margin: none;
+        }
+
+        .ui-menu-item .ui-menu-item-wrapper.ui-state-active {
+            color: black;
+            background: white;
+            border-color: black;
+            margin: none;
+        }
+
+        #input-search.ui-autocomplete-loading {
+            background: black url("icons/loadspinner.gif") center no-repeat;
+        }
+
+        .ui-menu img {
+            max-height: 96px;
+            max-width: 64px;
+        }
+
+        .ui-menu li span {
+            font-size: 1em;
+            padding: 0 0 10px 10px;
+            margin: 0 0 10px 0 !important;
+            white-space: nowrap;
+        }
+
+        .ui-autocomplete.ui-menu.ui-widget.ui-widget-content {
+            background-color: black;
+            border-color: white;
+            border-radius: 5px;
+            border-width: 1px;
+        }
+
+        .kinopoisk:hover {
+            text-shadow: 1px 1px 2px transparent, 0 0 1em yellow;
+            background: -webkit-linear-gradient(315deg, #f50 69.91%, #d6bb00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+
+
+        .da:hover {
+            color: #F59307;
+            background: #F59307;
+            -webkit-text-fill-color: #F59307;
+        }
+
+        #kpcontainer,
+        #kp-info {
+            font-size: 24px;
+
+        }
+
+        #kp-info {
+            text-align: center;
+
+        }
+
+        #kp-title,
+        #kp-rating {
+            display: inline;
+        }
+
+        #kp-slogan {
+            font-size: 16px;
+            color: gray;
+        }
+
+        #kp-img {
+            margin-top: 110px;
+            padding: 100px;
+        }
+
+        #garland {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            background-image: url("icons/trn-christmas-lights.webp");
+            background-repeat: repeat-x;
+            height: 34px;
+            width: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            transform: rotate(180deg);
+            z-index: 99
+        }
+
+        .animate-app {
+            background-image: linear-gradient(-225deg,
+                    #ff1361 0%,
+                    #fff800 29%,
+                    #ff1361 67%,
+                    #fff800 100%);
+            background-size: auto auto;
+            background-clip: border-box;
+            background-size: 200% auto;
+            color: #fff;
+            background-clip: text;
+            text-fill-color: transparent;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textclip 2s linear infinite;
+            display: inline-block;
+            font-size: 16px;
+        }
+
+        @keyframes textclip {
+            to {
+                background-position: 200% center;
+            }
+        }
+    </style>
+
+</head>
+<div class="rain front-row"></div>
+<div class="stars"></div>
+<div class="twinkling"></div>
+<div id="garland" style="display:none"></div>
+
+<body class="index">
+    <div id="snackbar">Не найдено =(</div>
+    <nav class="navbar-drawer navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div id="navbar">
+                <ul>
+                    <li>
+                        <input type="checkbox" id="drawer-toggle" name="drawer-toggle" />
+                        <label for="drawer-toggle" id="drawer-toggle-label"></label>
+                        <nav id="drawer">
+                            <ul>
+                                <li>
+                                    <a style="display:flex" href="https://reyohoho.github.io/reyohoho/">На
+                                        главную&nbsp;&nbsp;<img width="20" height="20" src="icons/home.svg"
+                                            title="На главную"></a>
+                                </li>
+                                <li>
+                                    <a href="https://t.me/ReYohoho/14" target="_blank"
+                                        class="animate-app">Приложение&nbsp;&nbsp;<img width="20" height="20"
+                                            src="icons/icons8-tv-50.png" title="Приложение"></a>
+                                </li>
+                                <li>
+                                    <a style="display:flex"
+                                        href="https://github.com/reyohoho/reyohoho-chrome-ff-ext/blob/master/README.MD"
+                                        target="_blank">Расширение&nbsp;&nbsp;<img width="20" height="20"
+                                            src="icons/chrome.svg">&nbsp;<img width="20" height="20"
+                                            src="icons/firefox.png">&nbsp;<img width="20" height="20"
+                                            src="icons/tampermonkey.svg">&nbsp;&nbsp;</a>
+                                </li>
+                                <li>
+                                    <a href="https://boosty.to/sentryward/donate" target="_blank">Поддержать
+                                        <img height="20" src="icons/Boosty_logo.svg"></a>
+                                </li>
+                                <li>
+                                    <a href="https://gist.github.com/reyohoho/93d835ada55bb1175b4249cbf1f1bf20"
+                                        target="_blank">Спасибо ❤️</a>
+                                </li>
+                                <li>
+                                    <a href="https://github.com/reyohoho/reyohoho" target="_blank">Fork
+                                        GitHub&nbsp;&nbsp;<img width="20" height="20" src="icons/github-mark-white.svg"
+                                            title="Github"></a>
+                                </li>
+                                <li>
+                                    <a href="/reyohoho/contact.html" target="_blank">Правообладателям&nbsp;&nbsp;<img
+                                            width="20" height="20" src="icons/law-scales-svgrepo-com.svg"
+                                            title="Правообладателям"></a>
+                                </li>
+                                <li>
+                                    <a href="https://t.me/ReYohoho" style="display:flex"
+                                        target="_blank">Telegram&nbsp;&nbsp;<img width="20" height="20"
+                                            src="icons/telegram.svg" title="Новости, поддержка"></a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a style="display:flex" href="https://reyohoho.github.io/reyohoho/">На главную&nbsp;&nbsp;<img
+                                width="20" height="20" src="icons/home.svg" title="На главную"></a>
+                    </li>
+                    <li>
+                        <a href="https://t.me/ReYohoho/14" target="_blank"
+                            class="animate-app">Приложение&nbsp;&nbsp;<img width="20" height="20"
+                                src="icons/icons8-tv-50.png" title="Приложение"></a>
+                    </li>
+                    <li>
+                        <a style="display:flex"
+                            href="https://github.com/reyohoho/reyohoho-chrome-ff-ext/blob/master/README.MD"
+                            target="_blank">Расширение&nbsp;&nbsp;<img width="20" height="20"
+                                src="icons/chrome.svg">&nbsp;<img width="20" height="20"
+                                src="icons/firefox.png">&nbsp;<img width="20" height="20"
+                                src="icons/tampermonkey.svg">&nbsp;&nbsp;</a>
+                    </li>
+                    <li>
+                        <a class="collapse navbar-collapse da" href="https://boosty.to/sentryward/donate"
+                            target="_blank">&nbsp;&nbsp;Поддержать <img height="20"
+                                src="icons/Boosty_logo.svg"></a>
+                    </li>
+                    <li>
+                        <a href="https://gist.github.com/reyohoho/93d835ada55bb1175b4249cbf1f1bf20"
+                            target="_blank">&nbsp;&nbsp;Спасибо ❤️</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/reyohoho/reyohoho" target="_blank">Fork GitHub&nbsp;&nbsp;<img
+                                width="20" height="20" src="icons/github-mark-white.svg" title="Github"></a>
+                    </li>
+                    <li>
+                        <a href="/reyohoho/contact.html" target="_blank">Правообладателям&nbsp;&nbsp;<img width="20"
+                                height="20" src="icons/law-scales-svgrepo-com.svg" title="Правообладателям"></a>
+                    </li>
+
+                    <li>
+                        <a href="https://t.me/ReYohoho" style="display:flex" target="_blank">Telegram&nbsp;&nbsp;<img
+                                width="20" height="20" src="icons/telegram.svg" title="Новости, поддержка"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="search-line">
+        <div id="kp-info">
+            <div id="kp-container">
+                <div id="kp-title"></div>
+                <div id="kp-rating"></div>
+            </div>
+            <div id="kp-slogan"></div>
+
+        </div>
+        <script>
+            var loaded = false;
+            function brandIconLoad(img) {
+                if (loaded) return;
+                let currentDate = new Date();
+                let currentMonth = currentDate.getMonth();
+                // 15 Dec >=< 15 Jan
+                if (currentMonth == 0 && currentDate.getDate() <= 15) {
+                    img.src = "https://cdn.7tv.app/emote/637623bfff60507d84cda8a7/4x.png";
+                } else if (currentMonth == 11 && currentDate.getDate() >= 15) {
+                    img.src = "https://cdn.7tv.app/emote/637623bfff60507d84cda8a7/4x.png";
+                } else {
+                    img.src = "https://cdn.7tv.app/emote/60fced1a712cfecff99adeb3/4x.png";
+                }
+                loaded = true;
+                return;
+            }
+        </script>
+        <div id="yohoho" data-tv="1" data-resize="1">
+            <div class="brand">ReYohoho
+                <img class="brand-icon" src="https://cdn.7tv.app/emote/60fced1a712cfecff99adeb3/4x.png" width="64"
+                    height="64" onload="brandIconLoad(this)" />
+            </div>
+            <div class="tabs" style="text-align:center;">
+                <input type="radio" name="tab-btn" id="tab-btn-2" value="" checked="">
+                <label for="tab-btn-2">Поиск по названию</label>
+                <input type="radio" name="tab-btn" id="tab-btn-1" value="">
+                <label for="tab-btn-1">ID КиноПоиск</label>
+                <div class="form" id="content-1">
+                    <input type="text" inputmode="numeric" oninput="this.value = this.value.replace(/\D+/g, '')"
+                        placeholder="Пример: 301 (Матрица)" id="input-kp" style="text-align:center;width: 250px">
+                    <input type="button" id="btn-kp" value="Найти">
+                </div>
+                <div class="form" id="content-2">
+                    <input type="text" placeholder="Название фильма" id="input-search"
+                        style="text-align:center;width: 250px">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <span id="count">В плеерах присутствует реклама, к которой ресурс отношения не имеет, рекомендуется
+                установить расширение ublock origin или аналогичный блокировщик рекламы</span>
+        </div>
+    </footer>
+
+    <script src="yo.js?10"></script>
+
+    <body class="index-seo"></body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <!-- <link rel="stylesheet" href="rain.css"> -->
+    <!-- <script src="rain.js"></script> -->
+    <!-- <script src="snow.js"></script> -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/jquery-ui.autocomplete.scroll@0.1.9/jquery.ui.autocomplete.scroll.min.js"></script>
+    <script>
+        function setCookie(name, value) {
+            var expires = "";
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // $(document).snowfall({shadow: true});
+            let currentDate = new Date();
+            let currentMonth = currentDate.getMonth();
+            // 15 Dec >=< 15 Jan
+            if (currentMonth == 0 && currentDate.getDate() <= 15) {
+                $('#garland').show();
+            } else if (currentMonth == 11 && currentDate.getDate() >= 15) {
+                $('#garland').show();
+            } else {
+                $('#garland').hide();
+            }
+            var search = document.querySelector('#input-kp');
+            var input_search = document.querySelector('#input-search');
+            var input_kp = document.querySelector('#input-kp');
+            var title
+            if (input_search) {
+                title = document.querySelector('#input-search');
+            }
+            if (input_kp) {
+                title = document.querySelector('#input-kp');
+            }
+            function parse() {
+                var yohoho = document.querySelector('#yohoho');
+                if (title && title.value && yohoho) {
+                    if (/kinopoisk\.ru/i.test(title.value)) {
+                        var exec = /(film\/|movie\/).*?([0-9]{3,7})\//gi.exec(title.value);
+                        if (exec && exec[2]) {
+                            yohoho.dataset.kinopoisk = exec[2];
+                            window.location.hash = '#' + yohoho.dataset.kinopoisk;
+                            document.title = 'КиноПоиск: ' + yohoho.dataset.kinopoisk;
+                        }
+                    } else if (/^\d+$/.test(title.value)) {
+                        yohoho.dataset.kinopoisk = title.value;
+                        window.location.hash = '#' + yohoho.dataset.kinopoisk;
+                        document.title = 'КиноПоиск: ' + yohoho.dataset.kinopoisk;
+                    } else {
+                        yohoho.dataset.title = encodeURIComponent(title.value);
+                        window.location.hash = '#' + yohoho.dataset.title;
+                        document.title = title.value;
+                    }
+                    if (title) {
+                        var source_url = "https://reyohoho.space:4432/kp_info/" + yohoho.dataset.kinopoisk + "?code=31";
+                        $.ajax({
+                            url: source_url,
+                            dataType: "json",
+                            success: function (data) {
+                                name = ''
+                                if (data.name_ru == null) {
+                                    name = data.name_en
+                                } else {
+                                    name = data.name_ru
+                                }
+                                if (name != "null") {
+                                    $('#kp-title').html(name + ' (' + data.year + ')');
+                                }
+                                if (data.slogan != "null") {
+                                    $('#kp-slogan').html(data.slogan);
+                                }
+                                if (data.rating_kinopoisk != "null" && data.rating_kinopoisk != null) {
+                                    var imdbHtml = ""
+                                    if (data.rating_imdb != "null" && data.rating_imdb != null) {
+                                        imdbHtml = '&nbsp;<a href="https://www.imdb.com/title/' + data.imdb_id + '/" target="_blank"><img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-imdb-48.png" title="IMDB: ' + data.rating_imdb_vote_count + ' гол."><h> ' + data.rating_imdb + '</h></a>&nbsp;<a href="https://www.imdb.com/title/' + data.imdb_id + '/parentalguide" target="_blank">&nbsp;ParentsGuide</a>';
+                                    }
+                                    $('#kp-rating').html('&nbsp;<a href="https://www.kinopoisk.ru/film/' + yohoho.dataset.kinopoisk + '/" target="_blank"><img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icon-kp-inv.svg?v=2" title="KP: ' + data.rating_kinopoisk_vote_count + ' гол."><h> ' + data.rating_kinopoisk + '</h></a>&nbsp;' + imdbHtml);
+                                }
+                            },
+                            error: function (a, b, c) { console.log(a) }
+                        });
+                    }
+                    return yo();
+                }
+            }
+            window.onhashchange = function () {
+                location.reload()
+            }
+            if (window.location.hash) {
+                var hash = window.location.hash.substring(1);
+                if (title && hash) {
+                    title.value = decodeURIComponent(hash);
+                    parse();
+                }
+            }
+            btn_kp = document.querySelector('#btn-kp');
+
+            if (btn_kp) {
+                btn_kp.addEventListener('click', function () {
+                    yohoho.dataset.title = encodeURIComponent(title.value);
+                    window.location.hash = '#' + yohoho.dataset.title;
+                    document.title = title.value;
+                });
+                input_kp.addEventListener('keyup', function (event) {
+                    event.preventDefault();
+                    if (event.keyCode === 13) {
+                        yohoho.dataset.title = encodeURIComponent(title.value);
+                        window.location.hash = '#' + yohoho.dataset.title;
+                        document.title = title.value;
+                    }
+                });
+            }
+
+
+            if (input_search) {
+                input_search.addEventListener('keyup', function (event) {
+                    event.preventDefault();
+                    if (event.keyCode === 13) {
+                        $('#input-search').autocomplete("search");
+                    }
+                });
+
+                $('#input-search').autocomplete({
+                    type: "GET",
+                    minLength: 3,
+                    maxShowItems: 7,
+                    delay: 2000,
+                    position: { my: "center top", at: "center bottom" },
+                    source: function (request, response) {
+                        var search_string = document.getElementById('input-search').value
+                        var source_url = "https://reyohoho.space:4432/search/" + search_string + "?code=31";
+
+                        $.ajax({
+                            url: source_url,
+                            dataType: "json",
+                            data: request,
+                            success: function (data) {
+                                if (data.length == 0) {
+                                    data.push({
+                                        title: 'Не найдено',
+                                        id: '0',
+                                        poster: 'https://cdn.7tv.app/emote/6317487fb2ef04bef5ded591/3x.webp',
+                                    })
+                                    $(".ui-autocomplete").css("height", "auto");
+                                } else {
+                                    $(".ui-autocomplete").css("height", "40%");
+                                }
+                                response($.map(data, function (c) {
+                                    var poster;
+                                    if (c.hasOwnProperty('poster')) {
+                                        poster = c.poster
+                                    } else {
+                                        poster = 'https://kinopoiskapiunofficial.tech/images/posters/kp_small/1227434.jpg'
+                                    }
+                                    return {
+                                        label: c.title,
+                                        value: c.id,
+                                        img: poster,
+                                    };
+                                }));
+
+                            },
+                            error: function (a, b, c) { console.log(a) }
+                        });
+                    },
+                    select: function (event, ui) {
+                        if (ui.item.value != '0') {
+                            yohoho.dataset.title = encodeURIComponent(title.value);
+                            window.location.hash = '#' + ui.item.value;
+                            document.title = title.value;
+                        } else {
+                            ui.item.value = '';
+                            return;
+                        }
+
+                    },
+                    html: true,
+                    open: function (event, ui) {
+                        $(".ui-autocomplete").css("z-index", 1000);
+                    }
+                })
+                    .autocomplete("instance")._renderItem = function (ul, item) {
+                        return $("<li><div><img width=64 height=96 src='" + item.img + "'><span style='white-space:normal'>" + item.label + "</span></div></li>").appendTo(ul);
+                    };
+            }
+        });
+
+    </script>
+</body>
+
+</html>
