@@ -396,9 +396,12 @@ function yo_player(iframe, quality, translate, element, buttons, size) {
     window.parent.postMessage({ "quality": quality, "translate": translate }, "*");
     var yohohoLoading = document.querySelector('#yohoho-loading');
     yohohoLoading.style.display = 'block';
-    setTimeout(function () {
+    // setTimeout(function () {
+    //     yohohoLoading.style.display = 'none';
+    // }, 2000);
+    yohohoIframe.onload = function(){
         yohohoLoading.style.display = 'none';
-    }, 10000);
+    };
     var yohohoIframe = document.querySelector('#yohoho-iframe');
     yohohoIframe.style.display = 'block';
     if (iframe.indexOf('4h0y') + 1) {
@@ -408,9 +411,6 @@ function yo_player(iframe, quality, translate, element, buttons, size) {
     } else {
         yohohoIframe.setAttribute('src', decodeURIComponent(iframe));
     }
-    yohohoIframe.onload = function(){
-        yohohoLoading.style.display = 'none';
-    };
     yohohoIframe.setAttribute('class', '');
     if (typeof element.setAttribute === 'function') {
         var yohohoActive = document.querySelectorAll('.yohoho-active');
