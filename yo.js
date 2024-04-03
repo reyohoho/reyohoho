@@ -399,10 +399,10 @@ function yo_player(iframe, quality, translate, element, buttons, size) {
     // setTimeout(function () {
     //     yohohoLoading.style.display = 'none';
     // }, 2000);
+    var yohohoIframe = document.querySelector('#yohoho-iframe');
     yohohoIframe.onload = function(){
         yohohoLoading.style.display = 'none';
     };
-    var yohohoIframe = document.querySelector('#yohoho-iframe');
     yohohoIframe.style.display = 'block';
     if (iframe.indexOf('4h0y') + 1) {
         yo_get(decodeURIComponent(iframe), '', function (json, html) {
