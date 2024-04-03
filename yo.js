@@ -396,9 +396,9 @@ function yo_player(iframe, quality, translate, element, buttons, size) {
     window.parent.postMessage({ "quality": quality, "translate": translate }, "*");
     var yohohoLoading = document.querySelector('#yohoho-loading');
     yohohoLoading.style.display = 'block';
-    // setTimeout(function () {
-    //     yohohoLoading.style.display = 'none';
-    // }, 2000);
+    setTimeout(function () {
+        yohohoLoading.style.display = 'none';
+    }, 10000);
     var yohohoIframe = document.querySelector('#yohoho-iframe');
     yohohoIframe.style.display = 'block';
     if (iframe.indexOf('4h0y') + 1) {
