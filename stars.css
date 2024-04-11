@@ -37,46 +37,6 @@ a:visited {
     color: #fcfcfc;
 }
 
-@keyframes move-twink-back {
-    from {
-        background-position: 0 0;
-    }
-
-    to {
-        background-position: -10000px 5000px;
-    }
-}
-
-@-webkit-keyframes move-twink-back {
-    from {
-        background-position: 0 0;
-    }
-
-    to {
-        background-position: -10000px 5000px;
-    }
-}
-
-@-moz-keyframes move-twink-back {
-    from {
-        background-position: 0 0;
-    }
-
-    to {
-        background-position: -10000px 5000px;
-    }
-}
-
-@-ms-keyframes move-twink-back {
-    from {
-        background-position: 0 0;
-    }
-
-    to {
-        background-position: -10000px 5000px;
-    }
-}
-
 .stars,
 .twinkling {
     position: absolute;
@@ -92,15 +52,4 @@ a:visited {
 .stars {
     background: #000 url(icons/stars.png) repeat top center;
     z-index: 0;
-}
-
-.twinkling {
-    background: transparent url(icons/twinkling.png) repeat top center;
-    z-index: 1;
-
-    -moz-animation: move-twink-back 200s linear infinite;
-    -ms-animation: move-twink-back 200s linear infinite;
-    -o-animation: move-twink-back 200s linear infinite;
-    -webkit-animation: move-twink-back 200s linear infinite;
-    animation: move-twink-back 200s linear infinite;
 }
