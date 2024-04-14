@@ -99,7 +99,13 @@ function yo(self) {
         ? options.bg.replace(/[^0-9a-z]/ig, '')
         : '000';
 
-    var options_url = 'https://reyohoho.space:4432/cache'
+    var options_url = "https://reyohoho.space:4432/cache";
+    // if(options.kinopoisk.startsWith('000')) {
+    //     options_url = 'https://reyohoho.space:4432/cache_kodik'
+    // } else {
+    //     options_url = 'https://reyohoho.space:4432/cache'
+    // }
+    
     // options.url
     // ? decodeURIComponent(options.url).trim() + (decodeURIComponent(options.url).indexOf('?')+1 ? '&' : '?') + 'cache' + Math.random().toString().substr(2, 3)
     // : 'https://ahoy.yohoho.' + tld + '?cache' + Math.random().toString().substr(2, 3);

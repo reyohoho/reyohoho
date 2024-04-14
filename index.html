@@ -443,9 +443,8 @@
                                             title="На главную"></a>
                                 </li>
                                 <li>
-                                    <a href="https://t.me/ReYohoho/14" target="_blank"
-                                        >Приложение&nbsp;&nbsp;<img width="20" height="20"
-                                            src="icons/icons8-tv-50.png" title="Приложение"></a>
+                                    <a href="https://t.me/ReYohoho/14" target="_blank">Приложение&nbsp;&nbsp;<img
+                                            width="20" height="20" src="icons/icons8-tv-50.png" title="Приложение"></a>
                                 </li>
                                 <li>
                                     <a style="display:flex"
@@ -464,8 +463,9 @@
                                         target="_blank">Спасибо ❤️</a>
                                 </li>
                                 <li>
-                                    <a href="https://github.com/reyohoho/reyohoho" target="_blank">GitHub&nbsp;&nbsp;<img width="20" height="20" src="icons/github-mark-white.svg"
-                                            title="Github"></a>
+                                    <a href="https://github.com/reyohoho/reyohoho"
+                                        target="_blank">GitHub&nbsp;&nbsp;<img width="20" height="20"
+                                            src="icons/github-mark-white.svg" title="Github"></a>
                                 </li>
                                 <li>
                                     <a href="/reyohoho/contact.html" target="_blank">Copyright&nbsp;&nbsp;<img
@@ -495,9 +495,8 @@
                                 width="20" height="20" src="icons/home.svg" title="На главную"></a>
                     </li>
                     <li>
-                        <a href="https://t.me/ReYohoho/14" target="_blank"
-                            >Приложение&nbsp;&nbsp;<img width="20" height="20"
-                                src="icons/icons8-tv-50.png" title="Приложение"></a>
+                        <a href="https://t.me/ReYohoho/14" target="_blank">Приложение&nbsp;&nbsp;<img width="20"
+                                height="20" src="icons/icons8-tv-50.png" title="Приложение"></a>
                     </li>
                     <li>
                         <a style="display:flex"
@@ -509,16 +508,15 @@
                     </li>
                     <li>
                         <a class="collapse navbar-collapse da" href="https://boosty.to/sentryward/donate"
-                            target="_blank">&nbsp;&nbsp;Поддержать <img height="20"
-                                src="icons/Boosty_logo.svg"></a>
+                            target="_blank">&nbsp;&nbsp;Поддержать <img height="20" src="icons/Boosty_logo.svg"></a>
                     </li>
                     <li>
                         <a href="https://gist.github.com/reyohoho/93d835ada55bb1175b4249cbf1f1bf20"
                             target="_blank">&nbsp;&nbsp;Спасибо ❤️</a>
                     </li>
                     <li>
-                        <a href="https://github.com/reyohoho/reyohoho" target="_blank">GitHub&nbsp;&nbsp;<img
-                                width="20" height="20" src="icons/github-mark-white.svg" title="Github"></a>
+                        <a href="https://github.com/reyohoho/reyohoho" target="_blank">GitHub&nbsp;&nbsp;<img width="20"
+                                height="20" src="icons/github-mark-white.svg" title="Github"></a>
                     </li>
                     <li>
                         <a href="/reyohoho/contact.html" target="_blank">Copyright&nbsp;&nbsp;<img width="20"
@@ -571,6 +569,14 @@
                 <label for="tab-btn-2">Поиск по названию</label>
                 <input type="radio" name="tab-btn" id="tab-btn-1" value="">
                 <label for="tab-btn-1">ID КиноПоиск</label>
+                <input type="radio" name="tab-btn" id="tab-btn-0" value="">
+                <label for="tab-btn-0">ID Shikimori</label>
+                <div class="form" id="content-0">
+                    <input type="text" inputmode="numeric" oninput="this.value = this.value.replace(/\D+/g, '')"
+                        placeholder="Пример: 28171 (Повар-боец Сома)" id="input-shiki"
+                        style="text-align:center;width: 250px">
+                    <input type="button" id="btn-shiki" value="Найти">
+                </div>
                 <div class="form" id="content-1">
                     <input type="text" inputmode="numeric" oninput="this.value = this.value.replace(/\D+/g, '')"
                         placeholder="Пример: 301 (Матрица)" id="input-kp" style="text-align:center;width: 250px">
@@ -591,7 +597,7 @@
         </div>
     </footer>
 
-    <script src="yo.js?19"></script>
+    <script src="yo.js?20"></script>
 
     <body class="index-seo"></body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -638,6 +644,8 @@
             var search = document.querySelector('#input-kp');
             var input_search = document.querySelector('#input-search');
             var input_kp = document.querySelector('#input-kp');
+            var input_shiki = document.querySelector('#input-shiki');
+
             var title
             if (input_search) {
                 title = document.querySelector('#input-search');
@@ -645,9 +653,41 @@
             if (input_kp) {
                 title = document.querySelector('#input-kp');
             }
+            var titleShiki
+            if (input_shiki) {
+                titleShiki = document.querySelector('#input-shiki');
+            }
             function parse() {
                 var yohoho = document.querySelector('#yohoho');
-                if (title && title.value && yohoho) {
+                if (titleShiki && titleShiki.value && yohoho && titleShiki.value.startsWith('shiki')) {
+                    yohoho.dataset.kinopoisk = titleShiki.value;
+                    window.location.hash = '#' + yohoho.dataset.kinopoisk;
+                    document.title = 'Shikimori: ' + yohoho.dataset.kinopoisk;
+                    if (titleShiki) {
+                        var source_url = "https://reyohoho.space:4432/shiki_info/" + yohoho.dataset.kinopoisk + "?code=31";
+                        $.ajax({
+                            url: source_url,
+                            dataType: "json",
+                            success: function (data) {
+                                name = ''
+                                if (data.name_ru == null) {
+                                    name = data.name_en
+                                } else {
+                                    name = data.name_ru
+                                }
+                                if (name != "null") {
+                                    $('#kp-title').html(name + ' (' + data.year + ')');
+                                }
+                                if (data.slogan != "null") {
+                                    $('#kp-slogan').html(data.slogan);
+                                }
+                            },
+                            error: function (a, b, c) { console.log(a) }
+                        });
+                    }
+                    return yo();
+                }
+                if (title && title.value && yohoho && !title.value.startsWith('shiki')) {
                     if (/kinopoisk\.ru/i.test(title.value)) {
                         var exec = /(film\/|movie\/).*?([0-9]{3,7})\//gi.exec(title.value);
                         if (exec && exec[2]) {
@@ -687,7 +727,7 @@
                                     if (data.rating_imdb != "null" && data.rating_imdb != null) {
                                         imdbHtml = '&nbsp;<a href="https://www.imdb.com/title/' + data.imdb_id + '/" target="_blank"><img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-imdb-48.png" title="IMDB: ' + data.rating_imdb_vote_count + ' гол."><h> ' + data.rating_imdb + '</h> <img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-external-link-48.png" title="OPEN"></a>&nbsp;<a href="https://www.imdb.com/title/' + data.imdb_id + '/parentalguide" target="_blank">&nbsp;ParentsGuide <img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-external-link-48.png" title="OPEN"></a>';
                                     }
-                                    $('#kp-rating').html('<div>&nbsp;<a href="https://www.kinopoisk.ru/film/' + yohoho.dataset.kinopoisk + '/" target="_blank"><img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icon-kp-inv.svg?v=2" title="KP: ' + data.rating_kinopoisk_vote_count + ' гол."><h> ' + data.rating_kinopoisk + '</h> <img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-external-link-48.png" title="OPEN"></a>&nbsp;' + imdbHtml+"</div>");
+                                    $('#kp-rating').html('<div>&nbsp;<a href="https://www.kinopoisk.ru/film/' + yohoho.dataset.kinopoisk + '/" target="_blank"><img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icon-kp-inv.svg?v=2" title="KP: ' + data.rating_kinopoisk_vote_count + ' гол."><h> ' + data.rating_kinopoisk + '</h> <img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-external-link-48.png" title="OPEN"></a>&nbsp;' + imdbHtml + "</div>");
                                 }
                             },
                             error: function (a, b, c) { console.log(a) }
@@ -701,13 +741,17 @@
             }
             if (window.location.hash) {
                 var hash = window.location.hash.substring(1);
-                if (title && hash) {
+                if (title && hash && !hash.startsWith('shiki')) {
                     title.value = decodeURIComponent(hash);
+                    parse();
+                }
+                if (titleShiki && hash && hash.startsWith('shiki')) {
+                    titleShiki.value = decodeURIComponent(hash);
                     parse();
                 }
             }
             btn_kp = document.querySelector('#btn-kp');
-
+            btn_shiki = document.querySelector('#btn-shiki');
             if (btn_kp) {
                 btn_kp.addEventListener('click', function () {
                     yohoho.dataset.title = encodeURIComponent(title.value);
@@ -724,6 +768,21 @@
                 });
             }
 
+            if (btn_shiki) {
+                btn_shiki.addEventListener('click', function () {
+                    yohoho.dataset.title = encodeURIComponent(titleShiki.value);
+                    window.location.hash = '#shiki' + yohoho.dataset.title;
+                    document.title = title.value;
+                });
+                input_shiki.addEventListener('keyup', function (event) {
+                    event.preventDefault();
+                    if (event.keyCode === 13) {
+                        yohoho.dataset.title = encodeURIComponent(titleShiki.value);
+                        window.location.hash = '#shiki' + yohoho.dataset.title;
+                        document.title = title.value;
+                    }
+                });
+            }
 
             if (input_search) {
                 input_search.addEventListener('keyup', function (event) {

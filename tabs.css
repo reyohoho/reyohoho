@@ -6,6 +6,7 @@
   display: none;
 }
 
+#tab-btn-0:checked~#content-0,
 #tab-btn-1:checked~#content-1,
 #tab-btn-2:checked~#content-2,
 
