@@ -717,7 +717,7 @@
                                 } else {
                                     name = data.name_ru
                                 }
-                                if (name != "null") {
+                                if (name != "null" && data.year != 0) {
                                     $('#kp-title').html(name + ' (' + data.year + ')');
                                 }
                                 if (data.slogan != "null") {
