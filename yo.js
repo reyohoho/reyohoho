@@ -93,7 +93,7 @@ function yo(self) {
         ? 'trailer'
         : options.player
             ? options.player
-            : 'hdrezkauhd0,hdrezkauh1,hdrezkauh2,hdrezkauh3,hdrezkauh4,hdrezkauh5,hdrezkauhd6,hdrezkauhd7,hdrezkauhd8,hdrezka,alloha,videocdn,collaps,hdvb,bazon,ustore,iframe,pleer,zetflix,kodik,kodik1,kodik2,kodik3,kodik4,kodik5,kodik6,kodik7,kodik8,kodik9,kodik10,kodik11,kodik12,kodik13,kodik14,kodik15,kodik16,kodik17,kodik18,kodik19,kodik20,kodik21,kodik22,kodik23,kodik24,kodik25,kodik26,kodik27,kodik28,kodik29,kodik30,kodik31,kodik32,kodik33,kodik34,kodik35,kodik36,kodik37,kodik38,kodik39,kodik40,kodik41,kodik42,kodik43,kodik44,kodik45,kodik46,kodik47,kodik48,kodik49,kodik50,linktodo,svetacdn';
+            : 'hdrezkauhd0,hdrezkauhd1,hdrezkauhd2,hdrezkauhd3,hdrezkauhd4,hdrezkauhd5,hdrezkauhd6,hdrezkauhd7,hdrezkauhd8,hdrezka,alloha,videocdn,collaps,hdvb,bazon,ustore,iframe,pleer,zetflix,kodik,kodik1,kodik2,kodik3,kodik4,kodik5,kodik6,kodik7,kodik8,kodik9,kodik10,kodik11,kodik12,kodik13,kodik14,kodik15,kodik16,kodik17,kodik18,kodik19,kodik20,kodik21,kodik22,kodik23,kodik24,kodik25,kodik26,kodik27,kodik28,kodik29,kodik30,kodik31,kodik32,kodik33,kodik34,kodik35,kodik36,kodik37,kodik38,kodik39,kodik40,kodik41,kodik42,kodik43,kodik44,kodik45,kodik46,kodik47,kodik48,kodik49,kodik50,linktodo,svetacdn';
 
     var bg = (options.bg && options.bg.replace(/[^0-9a-z]/ig, ''))
         ? options.bg.replace(/[^0-9a-z]/ig, '')
