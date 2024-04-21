@@ -694,6 +694,7 @@
                                     name = data.name_ru
                                 }
                                 if (name != "null") {
+                                    document.title = 'Shikimori: ' + name;
                                     $('#kp-title').html(name + ' (' + data.year + ')');
                                 }
                                 if (data.slogan != "null") {
@@ -735,6 +736,7 @@
                                     name = data.name_ru
                                 }
                                 if (name != "null" && data.year != 0) {
+                                    document.title = 'КиноПоиск: ' + name;
                                     $('#kp-title').html(name + ' (' + data.year + ')');
                                 }
                                 if (data.slogan != "null") {
