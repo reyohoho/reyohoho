@@ -84,17 +84,9 @@ function yo(self) {
             }
         }, {});
     }
-
-    if ((options.title && /трейлер|trailer|teaser/i.test(options.title)) || t) {
-        options.player = 'trailer';
-    }
-
-    options.player = ((options.title && /трейлер|trailer|teaser/i.test(options.title)) || t)
-        ? 'trailer'
-        : options.player
-            ? options.player
-            : 'hdrezkauhd0,hdrezkauhd1,hdrezkauhd2,hdrezkauhd3,hdrezkauhd4,hdrezkauhd5,hdrezkauhd6,hdrezkauhd7,hdrezkauhd8,hdrezka,fancdn,alloha,collaps,videocdn,hdvb,bazon,ustore,iframe,pleer,zetflix,kodik,kodik1,kodik2,kodik3,kodik4,kodik5,kodik6,kodik7,kodik8,kodik9,kodik10,kodik11,kodik12,kodik13,kodik14,kodik15,kodik16,kodik17,kodik18,kodik19,kodik20,kodik21,kodik22,kodik23,kodik24,kodik25,kodik26,kodik27,kodik28,kodik29,kodik30,kodik31,kodik32,kodik33,kodik34,kodik35,kodik36,kodik37,kodik38,kodik39,kodik40,kodik41,kodik42,kodik43,kodik44,kodik45,kodik46,kodik47,kodik48,kodik49,kodik50,linktodo,svetacdn';
-
+    console.log("IDDQD PRE")
+    options.player = yo_get_players_list();
+    console.log("IDDQD POST")
     var bg = (options.bg && options.bg.replace(/[^0-9a-z]/ig, ''))
         ? options.bg.replace(/[^0-9a-z]/ig, '')
         : '000';
@@ -105,7 +97,7 @@ function yo(self) {
     // } else {
     //     options_url = 'https://reyohoho.space:4432/cache'
     // }
-    
+
     // options.url
     // ? decodeURIComponent(options.url).trim() + (decodeURIComponent(options.url).indexOf('?')+1 ? '&' : '?') + 'cache' + Math.random().toString().substr(2, 3)
     // : 'https://ahoy.yohoho.' + tld + '?cache' + Math.random().toString().substr(2, 3);
@@ -124,6 +116,7 @@ function yo(self) {
     options.button = (options.button)
         ? options.button
         : 'hdrezkauhd0: {Q} {T}, hdrezkauhd1: {Q} {T}, hdrezkauhd2: {Q} {T}, hdrezkauhd3: {Q} {T}, hdrezkauhd4: {Q} {T}, hdrezkauhd5: {Q} {T}, hdrezkauhd6: {Q} {T}, hdrezkauhd7: {Q} {T}, hdrezka: {Q} {T}, fancdn: {Q} {T}, alloha: {Q} {T}, collaps: {Q} {T}, videocdn: {Q} {T}, hdvb: {Q} {T}, bazon: {Q} {T}, ustore: {Q} {T}, iframe: {Q} {T}, zetflix: {Q} {T}, kodik: {Q} {T}, kodik1: {Q} {T}, kodik2: {Q} {T}, kodik3: {Q} {T}, kodik4: {Q} {T}, kodik5: {Q} {T}, kodik6: {Q} {T}, kodik7: {Q} {T}, kodik8: {Q} {T}, kodik9: {Q} {T}, kodik10: {Q} {T}, kodik11: {Q} {T}, kodik12: {Q} {T}, kodik13: {Q} {T}, kodik14: {Q} {T}, kodik15: {Q} {T}, kodik16: {Q} {T}, kodik17: {Q} {T}, kodik18: {Q} {T}, kodik19: {Q} {T}, kodik20: {Q} {T}, kodik21: {Q} {T}, kodik22: {Q} {T}, kodik23: {Q} {T}, kodik24: {Q} {T}, kodik25: {Q} {T}, kodik26: {Q} {T}, kodik27: {Q} {T}, kodik28: {Q} {T}, kodik29: {Q} {T}, kodik30: {Q} {T}, kodik31: {Q} {T}, kodik32: {Q} {T}, kodik33: {Q} {T}, kodik34: {Q} {T}, kodik35: {Q} {T}, kodik36: {Q} {T}, kodik37: {Q} {T}, kodik38: {Q} {T}, kodik39: {Q} {T}, kodik40: {Q} {T}, kodik41: {Q} {T}, kodik42: {Q} {T}, kodik43: {Q} {T}, kodik44: {Q} {T}, kodik45: {Q} {T}, kodik46: {Q} {T}, kodik47: {Q} {T}, kodik48: {Q} {T}, kodik49: {Q} {T}, kodik50: {Q} {T},  linktodo: {Q} {T},  svetacdn: {Q} {T},';
+    options.button = yo_get_players_list2();
     if (options.button) {
         options.button.split(',').forEach(function (button) {
             var btn = button.split(':');
@@ -406,7 +399,7 @@ function yo_player(iframe, quality, translate, element, buttons, size) {
     //     yohohoLoading.style.display = 'none';
     // }, 2000);
     var yohohoIframe = document.querySelector('#yohoho-iframe');
-    yohohoIframe.onload = function(){
+    yohohoIframe.onload = function () {
         yohohoLoading.style.display = 'none';
     };
     yohohoIframe.style.display = 'block';
@@ -504,6 +497,40 @@ function yo_get(url, body, callback) {
     YoXmlHttp.send(body);
 }
 
+function yo_get_players_list() {
+    var static_list = 'hdrezkauhd0,hdrezkauhd1,hdrezkauhd2,hdrezkauhd3,hdrezkauhd4,hdrezkauhd5,hdrezkauhd6,hdrezkauhd7,hdrezkauhd8,hdrezka,fancdn,alloha,collaps,videocdn,hdvb,bazon,ustore,iframe,pleer,zetflix,kodik,kodik1,kodik2,kodik3,kodik4,kodik5,kodik6,kodik7,kodik8,kodik9,kodik10,kodik11,kodik12,kodik13,kodik14,kodik15,kodik16,kodik17,kodik18,kodik19,kodik20,kodik21,kodik22,kodik23,kodik24,kodik25,kodik26,kodik27,kodik28,kodik29,kodik30,kodik31,kodik32,kodik33,kodik34,kodik35,kodik36,kodik37,kodik38,kodik39,kodik40,kodik41,kodik42,kodik43,kodik44,kodik45,kodik46,kodik47,kodik48,kodik49,kodik50,linktodo,svetacdn';
+    var xmlHttp = new XMLHttpRequest();
+    try {
+        xmlHttp.open("GET", "https://reyohoho.space:4432/get_pl_list_1", false);
+        xmlHttp.send(null);
+        if (xmlHttp.status == 200) {
+            return xmlHttp.responseText;
+        } else {
+            return static_list;
+        }
+    } catch (e) {
+        console.log(e);
+        return static_list;
+    }
+}
+
+function yo_get_players_list2() {
+    var static_list = 'hdrezkauhd0: {Q} {T}, hdrezkauhd1: {Q} {T}, hdrezkauhd2: {Q} {T}, hdrezkauhd3: {Q} {T}, hdrezkauhd4: {Q} {T}, hdrezkauhd5: {Q} {T}, hdrezkauhd6: {Q} {T}, hdrezkauhd7: {Q} {T}, hdrezka: {Q} {T}, fancdn: {Q} {T}, alloha: {Q} {T}, collaps: {Q} {T}, videocdn: {Q} {T}, hdvb: {Q} {T}, bazon: {Q} {T}, ustore: {Q} {T}, iframe: {Q} {T}, zetflix: {Q} {T}, kodik: {Q} {T}, kodik1: {Q} {T}, kodik2: {Q} {T}, kodik3: {Q} {T}, kodik4: {Q} {T}, kodik5: {Q} {T}, kodik6: {Q} {T}, kodik7: {Q} {T}, kodik8: {Q} {T}, kodik9: {Q} {T}, kodik10: {Q} {T}, kodik11: {Q} {T}, kodik12: {Q} {T}, kodik13: {Q} {T}, kodik14: {Q} {T}, kodik15: {Q} {T}, kodik16: {Q} {T}, kodik17: {Q} {T}, kodik18: {Q} {T}, kodik19: {Q} {T}, kodik20: {Q} {T}, kodik21: {Q} {T}, kodik22: {Q} {T}, kodik23: {Q} {T}, kodik24: {Q} {T}, kodik25: {Q} {T}, kodik26: {Q} {T}, kodik27: {Q} {T}, kodik28: {Q} {T}, kodik29: {Q} {T}, kodik30: {Q} {T}, kodik31: {Q} {T}, kodik32: {Q} {T}, kodik33: {Q} {T}, kodik34: {Q} {T}, kodik35: {Q} {T}, kodik36: {Q} {T}, kodik37: {Q} {T}, kodik38: {Q} {T}, kodik39: {Q} {T}, kodik40: {Q} {T}, kodik41: {Q} {T}, kodik42: {Q} {T}, kodik43: {Q} {T}, kodik44: {Q} {T}, kodik45: {Q} {T}, kodik46: {Q} {T}, kodik47: {Q} {T}, kodik48: {Q} {T}, kodik49: {Q} {T}, kodik50: {Q} {T},  linktodo: {Q} {T},  svetacdn: {Q} {T},';
+    var xmlHttp = new XMLHttpRequest();
+    try {
+        xmlHttp.open("GET", "https://reyohoho.space:4432/get_pl_list_2", false);
+        xmlHttp.send(null);
+        if (xmlHttp.status == 200) {
+            return xmlHttp.responseText;
+        } else {
+            return static_list;
+        }
+    } catch (e) {
+        console.log(e);
+        return static_list;
+    }
+}
+
 function yo_json(jsonString) {
     try {
         var o = JSON.parse(jsonString);
@@ -513,7 +540,7 @@ function yo_json(jsonString) {
     }
     catch (e) {
         console.log("Error parse result: " + e)
-     }
+    }
     return {};
 }
 
