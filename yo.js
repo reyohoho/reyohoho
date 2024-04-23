@@ -84,9 +84,7 @@ function yo(self) {
             }
         }, {});
     }
-    console.log("IDDQD PRE")
     options.player = yo_get_players_list();
-    console.log("IDDQD POST")
     var bg = (options.bg && options.bg.replace(/[^0-9a-z]/ig, ''))
         ? options.bg.replace(/[^0-9a-z]/ig, '')
         : '000';
