@@ -664,14 +664,14 @@
             if (xmlHttpDons.status == 200) {
                 textarray = xmlHttpDons.responseText.split("\n");
                 $(function () {
-                    RndText();
+                    inter();
                 });
+                var inter = setInterval(function () { RndText(); }, 8000);
             }
         } catch (e) {
             console.log(e);
         }
 
-        var inter = setInterval(function () { RndText(); }, 3000);
         function setCookie(name, value) {
             var expires = "";
             document.cookie = name + "=" + (value || "") + expires + "; path=/";
