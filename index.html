@@ -645,16 +645,19 @@
     <!-- <link rel="stylesheet" href="rain.css"> -->
     <!-- <script src="rain.js"></script> -->
     <!-- <script src="snow.js"></script> -->
-    <script
-        src="https://reyohoho.space:4437/static/jquery.ui.autocomplete.scroll.min.js"></script>
+    <script src="https://reyohoho.space:4437/static/jquery.ui.autocomplete.scroll.min.js"></script>
     <script>
-        var textarray = [];
-
+        var textArray = [];
+        var toShowArray = [];
         function RndText() {
-            var rannum = Math.floor(Math.random() * textarray.length);
-
+            if (toShowArray.length == 0) {
+                toShowArray = structuredClone(textarray);
+            }
+            var rannum = Math.floor(Math.random() * toShowArray.length);
+            var toShow = toShowArray[rannum]
+            toShowArray.splice(rannum, 1)
             $('#thx_random_name').fadeOut(2000, function () {
-                $(this).text(textarray[rannum]).fadeIn(2000).delay(5000);
+                $(this).text(toShow).fadeIn(2000).delay(5000);
             });
         }
         var xmlHttpDons = new XMLHttpRequest();
