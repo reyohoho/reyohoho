@@ -861,14 +861,21 @@
                     delay: 2000,
                     position: { my: "center top", at: "center bottom" },
                     source: function (request, response) {
-                        var search_string = document.getElementById('input-search').value
-                        var source_url = "https://reyohoho.space:4432/search/" + search_string + "?code=31";
+                        var search_string = document.getElementById('input-search').value.trim()
+                        search_string = search_string.replace('#', '');
+                        if (search_string.length == 0) {
+                            $('#input-search').val("");
+                            $("#input-search").removeClass("ui-autocomplete-loading");
+                            return;
+                        }
+                        var source_url = "https://reyohoho.space:4432/search/" + encodeURIComponent(search_string) + "?code=31";
 
                         $.ajax({
                             url: source_url,
                             dataType: "json",
                             data: request,
                             success: function (data) {
+                                $("#input-search").removeClass("ui-autocomplete-loading");
                                 if (data.length == 0) {
                                     data.push({
                                         title: 'Не найдено',
