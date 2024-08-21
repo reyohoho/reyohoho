@@ -39,6 +39,8 @@
             color: #fff;
             margin: 50px auto 60px;
             font-size: 14px;
+            scrollbar-color: white black;
+            scrollbar-width: thin;
         }
 
         .index,
@@ -297,7 +299,7 @@
         }
 
         .ui-autocomplete {
-            overflow-y: auto;
+            overflow-y: scroll;
             overflow-x: hidden;
         }
 
@@ -689,7 +691,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('input-search').focus();
             // $(document).snowfall({shadow: true});
             let currentDate = new Date();
             let currentMonth = currentDate.getMonth();
@@ -853,20 +854,46 @@
                         $('#input-search').autocomplete("search");
                     }
                 });
+                function getCookie(cname) {
+                    var name = cname + "=";
+                    var ca = document.cookie.split(';');
+                    for (var i = 0; i < ca.length; i++) {
+                        var c = ca[i];
+                        while (c.charAt(0) == ' ') c = c.substring(1);
+                        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+                    }
+                    return "";
+                }
 
                 $('#input-search').autocomplete({
                     type: "GET",
-                    minLength: 3,
+                    minLength: 0,
                     maxShowItems: 7,
                     delay: 2000,
                     position: { my: "center top", at: "center bottom" },
                     source: function (request, response) {
                         var search_string = document.getElementById('input-search').value.trim()
                         search_string = search_string.replace('#', '');
-                        if (search_string.length == 0) {
+                        if (search_string.length <= 2) {
                             $('#input-search').val("");
                             $("#input-search").removeClass("ui-autocomplete-loading");
-                            return;
+                            var history = getCookie('_searches');
+                            if (history.length > 0) {
+                                return response(history.split('___').reverse().map((tmp) => {
+                                    var c = JSON.parse(tmp);
+                                    var poster;
+                                    if (c.hasOwnProperty('img')) {
+                                        poster = c.img
+                                    } else {
+                                        poster = 'https://kinopoiskapiunofficial.tech/images/posters/kp_small/1227434.jpg'
+                                    }
+                                    return {
+                                        label: c.label,
+                                        value: c.value,
+                                        img: poster,
+                                    };
+                                }))
+                            } else return;
                         }
                         var source_url = "https://reyohoho.space:4432/search/" + encodeURIComponent(search_string) + "?code=31";
 
@@ -906,6 +933,14 @@
                     },
                     select: function (event, ui) {
                         if (ui.item.value != '0') {
+                            var s = getCookie('_searches');
+                            if (s.length == 0) {
+                                document.cookie = "_searches=" + JSON.stringify(ui.item);
+                            } else {
+                                if (!s.includes(JSON.stringify(ui.item))) {
+                                    document.cookie = "_searches=" + s + '___' + JSON.stringify(ui.item);
+                                }
+                            }
                             yohoho.dataset.title = encodeURIComponent(title.value);
                             window.location.hash = '#' + ui.item.value;
                             document.title = title.value;
@@ -915,14 +950,19 @@
                         }
 
                     },
+                    create: function () {
+                        $(this).data('ui-autocomplete')._renderItem = function (ul, item) {
+                            return $("<li><div><img width=64 height=96 src='" + item.img + "'><span style='white-space:normal'>" + item.label + "</span></div></li>").appendTo(ul);
+                        };
+                    },
                     html: true,
                     open: function (event, ui) {
                         $(".ui-autocomplete").css("z-index", 1000);
                     }
-                })
-                    .autocomplete("instance")._renderItem = function (ul, item) {
-                        return $("<li><div><img width=64 height=96 src='" + item.img + "'><span style='white-space:normal'>" + item.label + "</span></div></li>").appendTo(ul);
-                    };
+                }).focus(function () {
+                    $(this).autocomplete("search");
+                });
+                document.getElementById('input-search').focus();
             }
         });
 
