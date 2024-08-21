@@ -934,11 +934,13 @@
                     select: function (event, ui) {
                         if (ui.item.value != '0') {
                             var s = getCookie('_searches');
+                            var exdate = new Date().getTime() + (1000 * 60 * 60 * 24 * 7 * 52);
+                            var date_cookie = new Date(exdate).toUTCString();
                             if (s.length == 0) {
-                                document.cookie = "_searches=" + JSON.stringify(ui.item);
+                                document.cookie = "_searches=" + JSON.stringify(ui.item) + '; expires=' + date_cookie + '; path=/';
                             } else {
                                 if (!s.includes(JSON.stringify(ui.item))) {
-                                    document.cookie = "_searches=" + s + '___' + JSON.stringify(ui.item);
+                                    document.cookie = "_searches=" + s + '___' + JSON.stringify(ui.item) + '; expires=' + date_cookie + '; path=/';
                                 }
                             }
                             yohoho.dataset.title = encodeURIComponent(title.value);
