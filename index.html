@@ -718,6 +718,28 @@
             if (input_shiki) {
                 titleShiki = document.querySelector('#input-shiki');
             }
+
+            function save_search(string_Item) {
+                var s = getCookie('_searches');
+                if (s.split("___").length > 10) {
+                    var history = s.split('___').reverse()
+                    console.log(history)
+                    history.length = 10
+                    console.log(history)
+                    s = history.reverse().join('___')
+                    console.log(s)
+                }
+                var exdate = new Date().getTime() + (1000 * 60 * 60 * 24 * 7 * 52);
+                var date_cookie = new Date(exdate).toUTCString();
+                if (s.length == 0) {
+                    document.cookie = "_searches=" + string_Item + '; expires=' + date_cookie + '; path=/';
+                } else {
+                    if (!s.includes(string_Item)) {
+                        document.cookie = "_searches=" + s + '___' + string_Item + '; expires=' + date_cookie + '; path=/';
+                    }
+                }
+            }
+
             function parse() {
                 var yohoho = document.querySelector('#yohoho');
                 if (titleShiki && titleShiki.value && yohoho && titleShiki.value.startsWith('shiki')) {
@@ -743,6 +765,8 @@
                                 if (data.slogan != "null") {
                                     $('#kp-slogan').html(data.slogan);
                                 }
+                                var string_Item = '{"label":"' + name + ' (' + data.year + ')' + '","value":"' + yohoho.dataset.kinopoisk + '","img":"https://kinopoiskapiunofficial.tech/images/posters/kp_small/1227434.jpg"}'
+                                save_search(string_Item)
                             },
                             error: function (a, b, c) { console.log(a) }
                         });
@@ -792,6 +816,8 @@
                                     }
                                     $('#kp-rating').html('<div>&nbsp;<a href="https://www.kinopoisk.ru/film/' + yohoho.dataset.kinopoisk + '/" target="_blank"><img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icon-kp-inv.svg?v=2" title="KP: ' + data.rating_kinopoisk_vote_count + ' гол."><h> ' + data.rating_kinopoisk + '</h> <img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-external-link-48.png" title="OPEN"></a>&nbsp;' + imdbHtml + "</div>");
                                 }
+                                var string_Item = '{"label":"' + name + ' (' + data.year + ')' + '","value":' + data.kinopoisk_id + ',"img":"' + data.poster_url_preview + '"}'
+                                save_search(string_Item)
                             },
                             error: function (a, b, c) { console.log(a) }
                         });
@@ -877,23 +903,30 @@
                         if (search_string.length <= 2) {
                             $('#input-search').val("");
                             $("#input-search").removeClass("ui-autocomplete-loading");
-                            var history = getCookie('_searches');
-                            if (history.length > 0) {
-                                return response(history.split('___').reverse().map((tmp) => {
-                                    var c = JSON.parse(tmp);
-                                    var poster;
-                                    if (c.hasOwnProperty('img')) {
-                                        poster = c.img
-                                    } else {
-                                        poster = 'https://kinopoiskapiunofficial.tech/images/posters/kp_small/1227434.jpg'
-                                    }
-                                    return {
-                                        label: c.label,
-                                        value: c.value,
-                                        img: poster,
-                                    };
-                                }))
-                            } else return;
+                            try {
+                                var history = getCookie('_searches');
+                                if (history.length > 0) {
+                                    return response(history.split('___').reverse().map((tmp) => {
+                                        var c = JSON.parse(tmp);
+                                        var poster;
+                                        if (c.hasOwnProperty('img')) {
+                                            poster = c.img
+                                        } else {
+                                            poster = 'https://kinopoiskapiunofficial.tech/images/posters/kp_small/1227434.jpg'
+                                        }
+                                        return {
+                                            label: c.label,
+                                            value: c.value,
+                                            img: poster,
+                                        };
+                                    }))
+                                } else return;
+                            } catch (e) {
+                                console.log(e);
+                                document.cookie = "_searches" + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                                return
+                            }
+
                         }
                         var source_url = "https://reyohoho.space:4432/search/" + encodeURIComponent(search_string) + "?code=31";
 
@@ -933,16 +966,7 @@
                     },
                     select: function (event, ui) {
                         if (ui.item.value != '0') {
-                            var s = getCookie('_searches');
-                            var exdate = new Date().getTime() + (1000 * 60 * 60 * 24 * 7 * 52);
-                            var date_cookie = new Date(exdate).toUTCString();
-                            if (s.length == 0) {
-                                document.cookie = "_searches=" + JSON.stringify(ui.item) + '; expires=' + date_cookie + '; path=/';
-                            } else {
-                                if (!s.includes(JSON.stringify(ui.item))) {
-                                    document.cookie = "_searches=" + s + '___' + JSON.stringify(ui.item) + '; expires=' + date_cookie + '; path=/';
-                                }
-                            }
+                            save_search(JSON.stringify(ui.item))
                             yohoho.dataset.title = encodeURIComponent(title.value);
                             window.location.hash = '#' + ui.item.value;
                             document.title = title.value;
