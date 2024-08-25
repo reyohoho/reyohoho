@@ -720,6 +720,9 @@
             }
 
             function save_search(string_Item) {
+                if (string_Item.includes("undefined")) {
+                    return;
+                }
                 var s = getCookie('_searches');
                 if (s.split("___").length > 10) {
                     var history = s.split('___').reverse()
@@ -907,18 +910,27 @@
                                 var history = getCookie('_searches');
                                 if (history.length > 0) {
                                     return response(history.split('___').reverse().map((tmp) => {
-                                        var c = JSON.parse(tmp);
-                                        var poster;
-                                        if (c.hasOwnProperty('img')) {
-                                            poster = c.img
-                                        } else {
-                                            poster = 'https://kinopoiskapiunofficial.tech/images/posters/kp_small/1227434.jpg'
+                                        try {
+                                            var c = JSON.parse(tmp);
+                                            var poster;
+                                            if (c.hasOwnProperty('img')) {
+                                                poster = c.img
+                                            } else {
+                                                poster = 'https://kinopoiskapiunofficial.tech/images/posters/kp_small/1227434.jpg'
+                                            }
+                                            return {
+                                                label: c.label,
+                                                value: c.value,
+                                                img: poster,
+                                            };
+                                        } catch (e) {
+                                            console.log(e);
+                                            return {
+                                                label: "_",
+                                                value: "_",
+                                                img: "_",
+                                            };
                                         }
-                                        return {
-                                            label: c.label,
-                                            value: c.value,
-                                            img: poster,
-                                        };
                                     }))
                                 } else return;
                             } catch (e) {
