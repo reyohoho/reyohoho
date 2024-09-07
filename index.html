@@ -746,7 +746,11 @@
                         s = s.split('___').filter(function (item) {
                             return !item.includes(string_Item)
                         }).join('___')
-                        document.cookie = "_searches=" + s + '___' + string_Item + '; expires=' + date_cookie + '; path=/';
+                        if (s.length != 0) {
+                            document.cookie = "_searches=" + s + '___' + string_Item + '; expires=' + date_cookie + '; path=/';
+                        } else {
+                            document.cookie = "_searches=" + string_Item + '; expires=' + date_cookie + '; path=/';
+                        }
                     }
                 }
             }
