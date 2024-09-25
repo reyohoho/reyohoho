@@ -1,3 +1,7 @@
+function player_selector(command) {
+    eval(command)
+};
+
 function yo_ahoy_key(event) {
     if (!event || (!event.key && !event.keyCode)) return;
     var key = ''; 'Enter' === event.key || 13 === event.keyCode ? key = 'fullscreen' : 'Left' === event.key || 'ArrowLeft' === event.key || 37 === event.keyCode ? key = 'prev' : 'Right' === event.key || 'ArrowRight' === event.key || 39 === event.keyCode ? key = 'next' : 'Up' === event.key || 'ArrowUp' === event.key || 38 === event.keyCode ? key = 'up' : 'Down' === event.key || 'ArrowDown' === event.key || 40 === event.keyCode ? key = 'down' : '0' === event.key || 48 === event.keyCode ? key = '0' : '1' === event.key || 49 === event.keyCode ? key = '1' : '2' === event.key || 50 === event.keyCode ? key = '2' : '3' === event.key || 51 === event.keyCode ? key = '3' : '4' === event.key || 52 === event.keyCode ? key = '4' : '5' === event.key || 53 === event.keyCode ? key = '5' : '6' === event.key || 54 === event.keyCode ? key = '6' : '7' === event.key || 55 === event.keyCode ? key = '7' : '8' === event.key || 56 === event.keyCode ? key = '8' : '9' !== event.key && 57 !== event.keyCode || (key = '9');
@@ -244,8 +248,10 @@ function yo(self) {
     yo_get(options_url, p,
         function (players) {
             var first = true;
-            var buttons = document.createElement('div');
+            var buttons = document.createElement('select');
             buttons.setAttribute('id', 'yohoho-buttons');
+            buttons.setAttribute('onchange', "player_selector(this.options[this.selectedIndex].getAttribute('player'));");
+
             var keys = options.player.split(options.separator);
             if (/\/\/|%2F%2F/i.test(options.player)) {
                 var p = [];
@@ -279,8 +285,8 @@ function yo(self) {
                     players[key].translate = (players[key].translate)
                         ? players[key].translate.replace(/"/g, '\'')
                         : '';
-                    var option = document.createElement('div');
-                    option.setAttribute('onclick', 'yo_player("' + encodeURIComponent(players[key].iframe) + '", "' + players[key].quality + '", "' + players[key].translate + '", this, "' + options.button_size + '")');
+                    var option = document.createElement('option');
+                    option.setAttribute('player', 'yo_player("' + encodeURIComponent(players[key].iframe) + '", "' + players[key].quality + '", "' + players[key].translate + '", this, "' + options.button_size + '")');
                     option.dataset.event = '' + (j + 1);
                     option.dataset.page = Math.ceil((j + 1) / options.button_limit) + '';
                     option.dataset.iframe = players[key].iframe;
@@ -329,15 +335,7 @@ function yo(self) {
                             .replace(/\s+/g, ' ')
                             .replace(/(^\s*)|(\s*)$/g, '');
                         btns[key] = (btns[key]) ? btns[key] : key.toUpperCase();
-                        option.innerText = j + '► ' + btns[key];
-                    }
-                    else if (key === 'trailer') {
-                        j++;
-                        option.innerText = j + '► ' + language.trailer.toUpperCase();
-                    }
-                    else if (key === 'torrent') {
-                        j++;
-                        option.innerText = j + '► ' + language.torrent.toUpperCase();
+                        option.innerText = 'Источник: ' + btns[key];
                     }
                     else {
                         j++;
@@ -348,21 +346,6 @@ function yo(self) {
                         first = false;
                     }
                     buttons.appendChild(option);
-                    if (j && !(j % options.button_limit) && keys[i + 1]) {
-                        var next = document.createElement('div');
-                        next.setAttribute('onclick', 'yo_page(' + Math.ceil((j + 1) / options.button_limit) + ', "' + options.button_size + '");' + 'yo_player("' + encodeURIComponent(players[keys[i + 1].toLowerCase().trim()].iframe) + '", "' + players[keys[i + 1].toLowerCase().trim()].quality + '", "' + players[keys[i + 1].toLowerCase().trim()].translate + '", document.querySelector(\'[data-event="' + (j + 1) + '"]\'), "' + options.button_size + '")');
-                        next.dataset.event = 'next';
-                        next.dataset.page = Math.ceil(j / options.button_limit) + '';
-                        next.innerText = '-► ' + language.next;
-                        buttons.appendChild(next);
-
-                        var prev = document.createElement('div');
-                        prev.setAttribute('onclick', 'yo_page(' + Math.ceil(j / options.button_limit) + ', "' + options.button_size + '");' + 'yo_player("' + encodeURIComponent(players[keys[i - 1].toLowerCase().trim()].iframe) + '", "' + players[keys[i - 1].toLowerCase().trim()].quality + '", "' + players[keys[i - 1].toLowerCase().trim()].translate + '", document.querySelector(\'[data-event="' + (j) + '"]\'), "' + options.button_size + '")');
-                        prev.dataset.event = 'prev';
-                        prev.dataset.page = Math.ceil((j + 1) / options.button_limit) + '';
-                        prev.innerText = '◄- ' + language.prev;
-                        buttons.appendChild(prev);
-                    }
                 }
             }
             if (j < 1) {
@@ -380,7 +363,7 @@ function yo(self) {
             else if (j > 1) {
                 for (var i = 0; i < searchItems.length; i++)
                     searchItems[i].style.marginTop = "0%";
-                yohoho.appendChild(buttons);
+                document.querySelector('#player-selector').appendChild(buttons);
                 if (keys.length > options.button_limit) {
                     yo_page(1, options.button_size);
                 }
@@ -390,6 +373,7 @@ function yo(self) {
 }
 
 function yo_player(iframe, quality, translate, element, buttons, size) {
+    console.log("test");
     window.parent.postMessage({ "quality": quality, "translate": translate }, "*");
     var yohohoLoading = document.querySelector('#yohoho-loading');
     yohohoLoading.style.display = 'block';
@@ -418,26 +402,6 @@ function yo_player(iframe, quality, translate, element, buttons, size) {
         }
         element.setAttribute('class', 'yohoho-active');
     }
-    var yohohoButtons = (buttons) ? buttons : document.querySelector('#yohoho-buttons');
-    size = size ? parseFloat(size) : 1;
-    if (yohohoButtons) {
-        yohohoButtons.style = yohohoButtons.style ? yohohoButtons.style : {};
-        if (yohohoButtons.style && typeof yohohoButtons.style === 'object') {
-            yohohoButtons.style.right = '0';
-        } else {
-            yohohoButtons.style = { right: '0' };
-        }
-        setTimeout(function () {
-            var btn = setInterval(function () {
-                if (parseInt(yohohoButtons.style && yohohoButtons.style.right || '0') > -parseInt(yohohoButtons.offsetWidth) + (30 * size)) {
-                    yohohoButtons.style.right = (parseInt(yohohoButtons.style.right) - 1) + 'px';
-                }
-                else {
-                    clearInterval(btn);
-                }
-            }, 5);
-        }, 5000);
-    }
 }
 
 function yo_page(page, size) {
@@ -452,21 +416,6 @@ function yo_page(page, size) {
         for (var j = 0; j < yohohoPage.length; j++) {
             yohohoPage[j].style.display = 'block';
         }
-    }
-    var yohohoButtons = document.querySelector('#yohoho-buttons');
-    size = size ? parseFloat(size) : 1;
-    if (yohohoButtons) {
-        yohohoButtons.style.right = '0';
-        setTimeout(function () {
-            var btn = setInterval(function () {
-                if (parseInt(yohohoButtons.style && yohohoButtons.style.right || '0') > -parseInt(yohohoButtons.offsetWidth) + (30 * size)) {
-                    yohohoButtons.style.right = (parseInt(yohohoButtons.style.right) - 1) + 'px';
-                }
-                else {
-                    clearInterval(btn);
-                }
-            }, 5);
-        }, 5000);
     }
 }
 

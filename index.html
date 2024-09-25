@@ -426,6 +426,15 @@
                 background-position: 200% center;
             }
         }
+
+        select {
+            -webkit-appearance: menulist-button;
+            color: white;
+            background-color: #000;
+            font-size: 16px;
+            font-family: Neucha, sans-serif;
+            font-weight: 500;
+        }
     </style>
 
 </head>
@@ -580,7 +589,6 @@
                 <div id="kp-rating"></div>
             </div>
             <div id="kp-slogan"></div>
-
         </div>
         <script>
             var loaded = false;
@@ -600,6 +608,7 @@
                 return;
             }
         </script>
+        <div id="player-selector"></div>
         <div id="yohoho" data-tv="1" data-resize="1">
             <div class="brand">ReYohoho
                 <img class="brand-icon" src="https://cdn.7tv.app/emote/60fced1a712cfecff99adeb3/4x.png" width="64"
