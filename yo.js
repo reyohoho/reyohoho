@@ -373,7 +373,6 @@ function yo(self) {
 }
 
 function yo_player(iframe, quality, translate, element, buttons, size) {
-    console.log("test");
     window.parent.postMessage({ "quality": quality, "translate": translate }, "*");
     var yohohoLoading = document.querySelector('#yohoho-loading');
     yohohoLoading.style.display = 'block';
