@@ -936,8 +936,11 @@
                         var search_string = document.getElementById('input-search').value.trim()
                         search_string = search_string.replace('#', '');
                         if (search_string.length <= 2) {
-                            $('#input-search').val("");
+                            if(!search_string.trim().length) {
+                                $('#input-search').val("");
+                            }
                             $("#input-search").removeClass("ui-autocomplete-loading");
+
                             try {
                                 var history = getCookie('_searches');
                                 if (history.length > 0) {
