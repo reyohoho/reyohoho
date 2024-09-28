@@ -351,14 +351,8 @@ function yo(self) {
             if (j < 1) {
                 var yohohoLoading = document.querySelector('#yohoho-loading');
                 yohohoLoading.style.display = 'none';
-                var x = document.getElementById("snackbar");
                 for (var i = 0; i < searchItems.length; i++)
                     searchItems[i].style.marginTop = "10%";
-                x.className = "show";
-                setTimeout(function () {
-                    x.className = x.className.replace("show", "");
-                    location.replace('https://reyohoho.github.io/reyohoho');
-                }, 2000);
             }
             else if (j > 1) {
                 for (var i = 0; i < searchItems.length; i++)
@@ -424,17 +418,18 @@ function yo_get(url, body, callback) {
         if (YoXmlHttp.readyState === 4) {
             if (YoXmlHttp.status === 200) {
                 callback(yo_json(YoXmlHttp.responseText), YoXmlHttp.responseText);
+                console.log("YoXmlHttp.responseText " + YoXmlHttp.responseText)
+                if(YoXmlHttp.responseText == "{}") {
+                    console.log("YoXmlHttp.responseText == ")
+                    var x = document.getElementById("snackbar");
+                    x.className = "show";
+                }
             }
             else {
+                console.log("YoXmlHttp.status " + YoXmlHttp.status)
                 callback({}, '');
-                var x = document.getElementById("snackbar");
+                var x = document.getElementById("error");
                 x.className = "show";
-                setTimeout(function () {
-                    x.className = x.className.replace("show", "");
-                }, 2000);
-                setTimeout(function () {
-                    location.replace('https://reyohoho.github.io/reyohoho');
-                }, 2000);
             }
         }
     };

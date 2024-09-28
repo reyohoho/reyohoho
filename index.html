@@ -298,6 +298,26 @@
             visibility: visible;
         }
 
+        #error {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -260px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 9999;
+            left: 50%;
+            bottom: 50%;
+            font-size: 30px;
+        }
+
+        #error.show {
+            visibility: visible;
+        }
+
         .ui-autocomplete {
             overflow-y: scroll;
             overflow-x: hidden;
@@ -433,14 +453,14 @@
             color: white;
             background-color: #000;
             font-size: 16px;
-            font-family:Verdana,sans-serif;
-            font-weight:normal;
-            text-shadow:none;
-            line-height:normal;
-            border-radius:5px 0 0 5px;
-            padding:5px;
-            margin:5px 0 5px 5px;
-            opacity:1;
+            font-family: Verdana, sans-serif;
+            font-weight: normal;
+            text-shadow: none;
+            line-height: normal;
+            border-radius: 5px 0 0 5px;
+            padding: 5px;
+            margin: 5px 0 5px 5px;
+            opacity: 1;
         }
     </style>
 
@@ -467,11 +487,19 @@
             trackLinks: true,
             accurateTrackBounce: true
         });
+
+        function refreshPage() {
+            window.location.reload();
+        } 
     </script>
     <noscript>
         <div><img src="https://mc.yandex.ru/watch/94822173" style="position:absolute; left:-9999px;" alt="" /></div>
     </noscript>
     <div id="snackbar">Не найдено =(</div>
+    <div id="error">
+        <div>Произошла ошибка при обращении к серверу =(</div>
+        <button type="submit" style="background-color: black;color: white;" onClick="refreshPage()">Повторить попытку</button>
+    </div>
     <nav class="navbar-drawer navbar-inverse navbar-fixed-top">
         <div class="container">
             <div id="navbar">
@@ -936,7 +964,7 @@
                         var search_string = document.getElementById('input-search').value.trim()
                         search_string = search_string.replace('#', '');
                         if (search_string.length <= 2) {
-                            if(!search_string.trim().length) {
+                            if (!search_string.trim().length) {
                                 $('#input-search').val("");
                             }
                             $("#input-search").removeClass("ui-autocomplete-loading");
