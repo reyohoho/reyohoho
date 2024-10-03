@@ -668,6 +668,13 @@
                     <input type="button" id="btn-kp" value="Найти">
                 </div>
                 <div class="form" id="content-2">
+                    <div> 
+                        <label>
+                            <input style="margin: 0; padding: 0;accent-color: black;" type="checkbox" id="save_history" name="save_history"
+                                value="value" onclick="handleSaveCheckBoxHistoryChange(this);" checked>
+                            Включить историю?
+                        </label>
+                    </div>
                     <input type="text" placeholder="Название фильма" id="input-search"
                         style="text-align:center;width: 250px">
                 </div>
@@ -734,8 +741,29 @@
             return null;
         }
 
+        function handleSaveCheckBoxHistoryChange(cb) {
+            var exdate = new Date().getTime() + (1000 * 60 * 60 * 24 * 7 * 52);
+            var date_cookie = new Date(exdate).toUTCString();
+            document.cookie = "save_history=" + cb.checked + '; expires=' + date_cookie + '; path=/';
+        }
+        
+        function isSaveHistoryEnabled() {
+            var save_history = getCookie('save_history');
+            if (save_history == "true" || save_history == null) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             // $(document).snowfall({shadow: true});
+            var save_history = getCookie('save_history');
+            if (save_history == "true" || save_history == null) {
+                document.getElementById("save_history").checked = true;
+            } else {
+                document.getElementById("save_history").checked = false;
+            }
             let currentDate = new Date();
             let currentMonth = currentDate.getMonth();
             // 15 Dec >=< 15 Jan
@@ -764,6 +792,9 @@
             }
 
             function save_search(string_Item) {
+                if (isSaveHistoryEnabled() == false) {
+                        return;
+                }
                 if (string_Item.includes("undefined")) {
                     return;
                 }
@@ -943,16 +974,6 @@
                         $('#input-search').autocomplete("search");
                     }
                 });
-                function getCookie(cname) {
-                    var name = cname + "=";
-                    var ca = document.cookie.split(';');
-                    for (var i = 0; i < ca.length; i++) {
-                        var c = ca[i];
-                        while (c.charAt(0) == ' ') c = c.substring(1);
-                        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
-                    }
-                    return "";
-                }
 
                 $('#input-search').autocomplete({
                     type: "GET",
@@ -971,7 +992,7 @@
 
                             try {
                                 var history = getCookie('_searches');
-                                if (history.length > 0) {
+                                if (history.length > 0 && isSaveHistoryEnabled()) {
                                     return response(history.split('___').reverse().map((tmp) => {
                                         try {
                                             var c = JSON.parse(tmp);
