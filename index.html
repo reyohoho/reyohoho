@@ -738,7 +738,7 @@
                 while (c.charAt(0) == ' ') c = c.substring(1, c.length);
                 if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
             }
-            return null;
+            return "";
         }
 
         function handleSaveCheckBoxHistoryChange(cb) {
@@ -749,7 +749,7 @@
         
         function isSaveHistoryEnabled() {
             var save_history = getCookie('save_history');
-            if (save_history == "true" || save_history == null) {
+            if (save_history == "true" || save_history.length == 0) {
                 return true;
             } else {
                 return false;
@@ -759,7 +759,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             // $(document).snowfall({shadow: true});
             var save_history = getCookie('save_history');
-            if (save_history == "true" || save_history == null) {
+            if (save_history == "true" || save_history.length == 0) {
                 document.getElementById("save_history").checked = true;
             } else {
                 document.getElementById("save_history").checked = false;
