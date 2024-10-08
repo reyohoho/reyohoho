@@ -715,7 +715,7 @@
         }
         var xmlHttpDons = new XMLHttpRequest();
         try {
-            xmlHttpDons.open("GET", "https://reyohoho.space:4432/get_dons", false);
+            xmlHttpDons.open("GET", "https://reyohoho.space:4435/get_dons", false);
             xmlHttpDons.send(null);
             if (xmlHttpDons.status == 200) {
                 textarray = xmlHttpDons.responseText.split("\n");
@@ -837,7 +837,7 @@
                     window.location.hash = '#' + yohoho.dataset.kinopoisk;
                     document.title = 'Shikimori: ' + yohoho.dataset.kinopoisk;
                     if (titleShiki) {
-                        var source_url = "https://reyohoho.space:4432/shiki_info/" + yohoho.dataset.kinopoisk + "?code=31";
+                        var source_url = "https://reyohoho.space:4435/shiki_info/" + yohoho.dataset.kinopoisk + "?code=31";
                         $.ajax({
                             url: source_url,
                             dataType: "json",
@@ -881,7 +881,7 @@
                         document.title = title.value;
                     }
                     if (title) {
-                        var source_url = "https://reyohoho.space:4432/kp_info/" + yohoho.dataset.kinopoisk + "?code=31";
+                        var source_url = "https://reyohoho.space:4435/kp_info/" + yohoho.dataset.kinopoisk + "?code=31";
                         $.ajax({
                             url: source_url,
                             dataType: "json",
@@ -1024,7 +1024,7 @@
                             }
 
                         }
-                        var source_url = "https://reyohoho.space:4432/search/" + encodeURIComponent(search_string) + "?code=31";
+                        var source_url = "https://reyohoho.space:4435/search/" + encodeURIComponent(search_string) + "?code=31";
 
                         $.ajax({
                             url: source_url,
