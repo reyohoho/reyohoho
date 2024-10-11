@@ -298,6 +298,26 @@
             visibility: visible;
         }
 
+        #snackbar_cp {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -270px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 50%;
+            font-size: 30px;
+        }
+
+        #snackbar_cp.show {
+            visibility: visible;
+        }
+
         #error {
             visibility: hidden;
             min-width: 250px;
@@ -496,6 +516,7 @@
         <div><img src="https://mc.yandex.ru/watch/94822173" style="position:absolute; left:-9999px;" alt="" /></div>
     </noscript>
     <div id="snackbar">Не найдено =(</div>
+    <div id="snackbar_cp">Недоступно по требованию правообладателя</div>
     <div id="error">
         <div>Произошла ошибка при обращении к серверу =(</div>
         <button type="submit" style="background-color: black;color: white;" onClick="refreshPage()">Повторить попытку</button>
