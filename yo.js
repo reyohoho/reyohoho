@@ -417,10 +417,14 @@ function yo_get(url, body, callback) {
                 }
             }
             else {
-                console.log("YoXmlHttp.status " + YoXmlHttp.status)
                 callback({}, '');
-                var x = document.getElementById("error");
-                x.className = "show";
+                if(YoXmlHttp.status == 403) {
+                    var x = document.getElementById("snackbar_cp");
+                    x.className = "show";
+                } else {
+                    var x = document.getElementById("error");
+                    x.className = "show";
+                }
             }
         }
     };
