@@ -483,24 +483,29 @@
             opacity: 1;
         }
 
+        .ui-menu-item-wrapper {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            position: relative;
+        }
+
+        .item-label {
+            flex-grow: 1;
+            margin: 0 10px;
+            white-space: normal;
+        }
+
         .delete-btn {
             background: none;
             border: none;
             color: red;
             cursor: pointer;
-            float: right;
             font-size: 18px;
-            margin-left: 10px;
-        }
-
-        .ui-menu-item {
-            padding: 5px;
-        }
-
-        .ui-menu-item-wrapper {
-            display: flex;
-            align-items: center;
-            padding: 5px;
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         .ui-menu-item-wrapper.ui-state-active {
@@ -1134,7 +1139,11 @@
                     create: function () {
                         $(this).data('ui-autocomplete')._renderItem = function (ul, item) {
                             return $("<li class='ui-menu-item' data-value='" + item.value + "'></li>")
-                                .append("<div class='ui-menu-item-wrapper'><img width=64 height=96 src='" + item.img + "'><span style='white-space:normal'>" + item.label + "</span><button class='delete-btn' type='button'>✖</button></div>")
+                                .append("<div class='ui-menu-item-wrapper'>" +
+                                    "<img width=64 height=96 src='" + item.img + "'>" +
+                                    "<span class='item-label'>" + item.label + "</span>" +
+                                    "<button class='delete-btn' type='button'>✖</button>" +
+                                    "</div>")
                                 .appendTo(ul);
                         };
                     },
