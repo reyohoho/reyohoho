@@ -484,7 +484,7 @@
         }
 
         .ui-menu-item-wrapper {
-            display: flex;
+            display: flexbox;
             align-items: center;
             padding: 5px;
             position: relative;
@@ -1064,7 +1064,7 @@
                                                 poster = 'https://kinopoiskapiunofficial.tech/images/posters/kp_small/1227434.jpg'
                                             }
                                             return {
-                                                label: c.label,
+                                                label: c.label + "_history",
                                                 value: c.value,
                                                 img: poster,
                                             };
@@ -1127,7 +1127,7 @@
                         }
 
                         if (ui.item.value != '0') {
-                            save_search(JSON.stringify(ui.item))
+                            save_search(JSON.stringify(ui.item).replace("_history", ""));
                             yohoho.dataset.title = encodeURIComponent(title.value);
                             window.location.hash = '#' + ui.item.value;
                             document.title = title.value;
@@ -1138,13 +1138,23 @@
                     },
                     create: function () {
                         $(this).data('ui-autocomplete')._renderItem = function (ul, item) {
+                        console.log(JSON.stringify(item));
+                        if (item.label.includes("_history")) {
+                            return $("<li class='ui-menu-item' data-value='" + item.value + "'></li>")
+                                .append("<div class='ui-menu-item-wrapper'>" +
+                                    "<img width=64 height=96 src='" + item.img + "'>" +
+                                    "<span class='item-label'>" + item.label.replace("_history", "") + "</span>&nbsp&nbsp" +
+                                    "<button class='delete-btn' type='button'>✖</button>" +
+                                    "</div>")
+                                .appendTo(ul);
+                        } else {
                             return $("<li class='ui-menu-item' data-value='" + item.value + "'></li>")
                                 .append("<div class='ui-menu-item-wrapper'>" +
                                     "<img width=64 height=96 src='" + item.img + "'>" +
                                     "<span class='item-label'>" + item.label + "</span>" +
-                                    "<button class='delete-btn' type='button'>✖</button>" +
                                     "</div>")
                                 .appendTo(ul);
+                            }
                         };
                     },
                     html: true,
