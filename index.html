@@ -482,6 +482,46 @@
             margin: 5px 0 5px 5px;
             opacity: 1;
         }
+
+        .ui-menu-item-wrapper {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            position: relative;
+        }
+
+        .item-label {
+            flex-grow: 1;
+            margin: 0 10px;
+            white-space: normal;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: red;
+            cursor: pointer;
+            font-size: 18px;
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .ui-menu-item-wrapper.ui-state-active {
+            background-color: white !important;
+            color: black !important;
+            border: none !important;
+            margin: 0 !important;
+        }
+
+        .ui-state-active .delete-btn {
+            color: black;
+        }
+
+        .ui-autocomplete:empty {
+            display: none !important;
+        }
     </style>
 
 </head>
@@ -1082,6 +1122,10 @@
                         });
                     },
                     select: function (event, ui) {
+                        if ($(event.originalEvent.target).hasClass('delete-btn')) {
+                            return false;
+                        }
+
                         if (ui.item.value != '0') {
                             save_search(JSON.stringify(ui.item))
                             yohoho.dataset.title = encodeURIComponent(title.value);
@@ -1089,13 +1133,18 @@
                             document.title = title.value;
                         } else {
                             ui.item.value = '';
-                            return;
+                            return false;
                         }
-
                     },
                     create: function () {
                         $(this).data('ui-autocomplete')._renderItem = function (ul, item) {
-                            return $("<li><div><img width=64 height=96 src='" + item.img + "'><span style='white-space:normal'>" + item.label + "</span></div></li>").appendTo(ul);
+                            return $("<li class='ui-menu-item' data-value='" + item.value + "'></li>")
+                                .append("<div class='ui-menu-item-wrapper'>" +
+                                    "<img width=64 height=96 src='" + item.img + "'>" +
+                                    "<span class='item-label'>" + item.label + "</span>" +
+                                    "<button class='delete-btn' type='button'>✖</button>" +
+                                    "</div>")
+                                .appendTo(ul);
                         };
                     },
                     html: true,
@@ -1109,6 +1158,37 @@
             }
         });
 
+        $(document).on('mousedown', '.delete-btn', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            var li = $(this).closest('.ui-menu-item');
+            var value = li.data('value');
+
+            li.remove();
+            removeFromCookie(value);
+
+            if ($('.ui-autocomplete .ui-menu-item').length === 0) {
+                $('.ui-autocomplete').hide();
+            }
+
+            return false;
+        });
+
+        function removeFromCookie(valueToRemove) {
+            let cookie = getCookie('_searches');
+            if (cookie) {
+                let items = cookie.split('___').map(JSON.parse);
+                items = items.filter(item => item.value != valueToRemove);
+
+                if (items.length === 0) {
+                    document.cookie = "_searches=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+                    $('.ui-autocomplete').hide();
+                } else {
+                    document.cookie = "_searches=" + items.map(JSON.stringify).join('___') + '; path=/';
+                }
+            }
+        }
     </script>
 </body>
 
