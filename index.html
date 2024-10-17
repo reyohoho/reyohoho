@@ -1138,7 +1138,6 @@
                     },
                     create: function () {
                         $(this).data('ui-autocomplete')._renderItem = function (ul, item) {
-                        console.log(JSON.stringify(item));
                         if (item.label.includes("_history")) {
                             return $("<li class='ui-menu-item' data-value='" + item.value + "'></li>")
                                 .append("<div class='ui-menu-item-wrapper'>" +
