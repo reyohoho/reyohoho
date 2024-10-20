@@ -26,8 +26,11 @@
 }
 
 .tabs>input[type="radio"]:checked+label {
-  background-color: white;
-  color: black;
+  background-color: black;
+  color: white;
+  text-decoration-line: underline;
+  text-decoration-thickness: 10%;
+  text-underline-offset: 5px;
 }
 
 .tabs>input[type="radio"]:checked:after+label {
