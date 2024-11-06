@@ -695,11 +695,11 @@
                 let currentMonth = currentDate.getMonth();
                 // 15 Dec >=< 15 Jan
                 if (currentMonth == 0 && currentDate.getDate() <= 15) {
-                    img.src = "https://cdn.7tv.app/emote/637623bfff60507d84cda8a7/4x.png";
+                    img.src = "icons/basedge_ny.png";
                 } else if (currentMonth == 11 && currentDate.getDate() >= 15) {
-                    img.src = "https://cdn.7tv.app/emote/637623bfff60507d84cda8a7/4x.png";
+                    img.src = "icons/basedge_ny.png";
                 } else {
-                    img.src = "https://cdn.7tv.app/emote/60fced1a712cfecff99adeb3/4x.png";
+                    img.src = "icons/basedge.png";
                 }
                 loaded = true;
                 return;
@@ -707,7 +707,7 @@
         </script>
         <div id="yohoho" data-tv="1" data-resize="1">
             <div class="brand">ReYohoho
-                <img class="brand-icon" src="https://cdn.7tv.app/emote/60fced1a712cfecff99adeb3/4x.png" width="64"
+                <img class="brand-icon" src="icons/basedge.png" width="64"
                     height="64" onload="brandIconLoad(this)" />
             </div>
             <div class="tabs" style="text-align:center;">
@@ -1097,7 +1097,7 @@
                                     data.push({
                                         title: 'Не найдено',
                                         id: '0',
-                                        poster: 'https://cdn.7tv.app/emote/6317487fb2ef04bef5ded591/3x.webp',
+                                        poster: 'icons/not_found_wut.webp',
                                     })
                                     $(".ui-autocomplete").css("height", "auto");
                                 } else {
@@ -1108,7 +1108,7 @@
                                     if (c.hasOwnProperty('poster')) {
                                         poster = c.poster
                                     } else {
-                                        poster = 'https://kinopoiskapiunofficial.tech/images/posters/kp_small/1227434.jpg'
+                                        poster = 'icons/no-poster.gif'
                                     }
                                     return {
                                         label: c.title,
