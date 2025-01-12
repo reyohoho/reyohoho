@@ -1168,7 +1168,6 @@
                 if(title && title.value && yohoho && title.value.startsWith('search')) {
                     var search_text = title.value.replace('search=', '');
                     title.value = "";
-                    console.log(search_text);
                     $('#input-search').val(search_text);
                     $('#input-search').autocomplete("search");
                 }
