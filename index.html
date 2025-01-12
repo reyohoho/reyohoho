@@ -925,7 +925,7 @@
                     }
                     return yo();
                 }
-                if (title && title.value && yohoho && !title.value.startsWith('shiki')) {
+                if (title && title.value && yohoho && !title.value.startsWith('shiki') && !title.value.startsWith('search')) {
                     if (/kinopoisk\.ru/i.test(title.value)) {
                         var exec = /(film\/|movie\/).*?([0-9]{3,7})\//gi.exec(title.value);
                         if (exec && exec[2]) {
@@ -1164,6 +1164,14 @@
                 }).focus(function () {
                     $(this).autocomplete("search");
                 });
+
+                if(title && title.value && yohoho && title.value.startsWith('search')) {
+                    var search_text = title.value.replace('search=', '');
+                    title.value = "";
+                    console.log(search_text);
+                    $('#input-search').val(search_text);
+                    $('#input-search').autocomplete("search");
+                }
                 document.getElementById('input-search').focus();
             }
         });
