@@ -441,7 +441,7 @@
             pointer-events: none;
             overflow: hidden;
             transform: rotate(180deg);
-            z-index: 99
+            z-index: 1
         }
 
         .animate-app {
@@ -706,7 +706,7 @@
                 return;
             }
         </script>
-        <div id="yohoho" data-tv="1" data-resize="1">
+        <div id="yohoho" data-tv="1" data-resize="1" style="z-index: 101;">
             <div class="brand">ReYohoho
                 <img class="brand-icon" src="icons/basedge.png" width="64"
                     height="64" onload="brandIconLoad(this)" />
@@ -747,7 +747,7 @@
         </div>
     </div>
 
-    <footer class="footer" style="z-index: 100;">
+    <footer class="footer">
         <div id="thx_random_name" style="text-align: center; font-size: 18; font-family: sans-serif;"></div>
     </footer>
 
