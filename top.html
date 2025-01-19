@@ -106,6 +106,26 @@
         .header h1 {
             margin: 0;
         }
+        .menu {
+            margin: 20px 0;
+        }
+        .menu button {
+            margin-right: 10px;
+            padding: 10px 15px;
+            border: none;
+            background-color: #bb86fc;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .menu button:hover {
+            background-color: #753fb6;
+        }
+        .menu button.active {
+            background-color: #753fb6;
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
@@ -113,13 +133,26 @@
         <h1>Топ 100</h1>
         <button class="home-button" style="margin-left: 10px;" onclick="window.location.href='https://reyohoho.github.io/reyohoho/'">На главную</button>
     </div>
+    <div class="menu">
+        <button class="active" onclick="fetchMovies('https://reyohoho.space/top/all', this)">Всё время</button>
+        <button onclick="fetchMovies('https://reyohoho.space/top/30d', this)">30 Дней</button>
+        <button onclick="fetchMovies('https://reyohoho.space/top/7d', this)">7 дней</button>
+        <button onclick="fetchMovies('https://reyohoho.space/top/24h', this)">24 часа</button>
+    </div>
     <div class="grid" id="movieGrid"></div>
 
     <script>
-        async function fetchMovies() {
-            const response = await fetch('https://reyohoho.space/top');
+        async function fetchMovies(apiUrl, activeButton) {
+            const response = await fetch(apiUrl);
             const movies = await response.json();
             displayMovies(movies);
+
+            const buttons = document.querySelectorAll('.menu button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            activeButton.classList.add('active');
         }
         function getNoun(number, one, two, five) {
             let n = Math.abs(number);
@@ -147,7 +180,7 @@
                 const hiddenKpButton = movie.rating_kp === null ? "hidden" : "";
                 const hiddenImdbButton = movie.rating_imdb === null ? "hidden" : "";
                 
-                const viewsString = getNoun(movie.requests, 'просмотр', 'просмотра', 'просмотров');
+                const viewsString = getNoun(movie.views_count, 'просмотр', 'просмотра', 'просмотров');
 
                 movieElement.innerHTML = `
                     <img src="${movie.cover}" alt="${movie.title}">
@@ -155,7 +188,10 @@
                     <p>Рейтинг Кинопоиск: ${ratingKp}</p>
                     <p>Рейтинг IMDb: ${ratingImdb}</p>
                     <div class="views">
-                        <span>👀${movie.requests} ${viewsString}</span>
+                        <span>${movie.type.replace('FilmType.', '')}</span>
+                    </div>
+                    <div class="views">
+                        <span>👀${movie.views_count} ${viewsString}</span>
                     </div>
                     <div style="margin-top: auto;">
                         <a href="https://reyohoho.github.io/reyohoho/#${movie.kp_id}" target="_blank">ReYohoho</a>
@@ -168,7 +204,7 @@
             });
         }
 
-        fetchMovies();
+        fetchMovies('https://reyohoho.space/top/all', document.querySelector('.menu button.active'));
     </script>
 </body>
 </html>
