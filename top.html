@@ -218,6 +218,7 @@
         }
         function displayMovies(movies) {
             const grid = document.getElementById('movieGrid');
+            grid.innerHTML = '';
             movies.forEach(movie => {
                 const movieElement = document.createElement('div');
                 movieElement.classList.add('movie');
