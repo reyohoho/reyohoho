@@ -106,18 +106,15 @@ function yo(self) {
         : { "trailer": "ТРЕЙЛЕР", "torrent": "СКАЧАТЬ", "next": "ВПЕРЕД", "prev": "НАЗАД" };
 
     var btns = {};
-    options.button = (options.button)
-        ? options.button
-        : 'hdrezkauhd0: {Q} {T}, hdrezkauhd1: {Q} {T}, hdrezkauhd2: {Q} {T}, hdrezkauhd3: {Q} {T}, hdrezkauhd4: {Q} {T}, hdrezkauhd5: {Q} {T}, hdrezkauhd6: {Q} {T}, hdrezkauhd7: {Q} {T}, hdrezka: {Q} {T}, fancdn: {Q} {T}, alloha: {Q} {T}, collaps: {Q} {T}, videocdn: {Q} {T}, hdvb: {Q} {T}, bazon: {Q} {T}, ustore: {Q} {T}, iframe: {Q} {T}, zetflix: {Q} {T}, kodik: {Q} {T}, kodik1: {Q} {T}, kodik2: {Q} {T}, kodik3: {Q} {T}, kodik4: {Q} {T}, kodik5: {Q} {T}, kodik6: {Q} {T}, kodik7: {Q} {T}, kodik8: {Q} {T}, kodik9: {Q} {T}, kodik10: {Q} {T}, kodik11: {Q} {T}, kodik12: {Q} {T}, kodik13: {Q} {T}, kodik14: {Q} {T}, kodik15: {Q} {T}, kodik16: {Q} {T}, kodik17: {Q} {T}, kodik18: {Q} {T}, kodik19: {Q} {T}, kodik20: {Q} {T}, kodik21: {Q} {T}, kodik22: {Q} {T}, kodik23: {Q} {T}, kodik24: {Q} {T}, kodik25: {Q} {T}, kodik26: {Q} {T}, kodik27: {Q} {T}, kodik28: {Q} {T}, kodik29: {Q} {T}, kodik30: {Q} {T}, kodik31: {Q} {T}, kodik32: {Q} {T}, kodik33: {Q} {T}, kodik34: {Q} {T}, kodik35: {Q} {T}, kodik36: {Q} {T}, kodik37: {Q} {T}, kodik38: {Q} {T}, kodik39: {Q} {T}, kodik40: {Q} {T}, kodik41: {Q} {T}, kodik42: {Q} {T}, kodik43: {Q} {T}, kodik44: {Q} {T}, kodik45: {Q} {T}, kodik46: {Q} {T}, kodik47: {Q} {T}, kodik48: {Q} {T}, kodik49: {Q} {T}, kodik50: {Q} {T},  linktodo: {Q} {T},  svetacdn: {Q} {T},';
-    options.button = yo_get_players_list2();
-    if (options.button) {
-        options.button.split(',').forEach(function (button) {
-            var btn = button.split(':');
-            if (btn.length === 2 && btn[0] && btn[1]) {
-                btns[btn[0].trim().toLowerCase()] = btn[1].trim();
-            }
-        });
-    }
+    // options.button = yo_get_players_list2();
+    // if (options.button) {
+    //     options.button.split(',').forEach(function (button) {
+    //         var btn = button.split(':');
+    //         if (btn.length === 2 && btn[0] && btn[1]) {
+    //             btns[btn[0].trim().toLowerCase()] = btn[1].trim();
+    //         }
+    //     });
+    // }
     options.button_limit = 50;
     options.button_size = (options.button_size && parseFloat(options.button_size))
         ? parseFloat(options.button_size)
@@ -283,55 +280,8 @@ function yo(self) {
                     option.dataset.iframe = players[key].iframe;
                     option.dataset.quality = players[key].quality;
                     option.dataset.translate = players[key].translate;
-                    if (btns.hasOwnProperty(key) && btns[key]) {
-                        var q = (players[key].quality)
-                            ? (players[key].quality.toUpperCase().search(/TS|TC|SCR|CAM/gi) + 1)
-                                ? 'ЭКРАН'
-                                : (players[key].quality.toUpperCase().search(/720P/gi) + 1)
-                                    ? '720P'
-                                    : (players[key].quality.toUpperCase().search(/1080P/gi) + 1)
-                                        ? '1080P'
-                                        : players[key].quality
-                                            .toUpperCase()
-                                            .replace(/\s?ХОРОШЕЕ\s?|\s?СРЕДНЕЕ\s?|\s?ПЛОХОЕ\s?/gi, '')
-                            : '';
-                        var t = (players[key].translate)
-                            ? /ДУБЛ/i.test(players[key].translate)
-                                ? 'ДУБЛЯЖ'
-                                : /ПРОФ/i.test(players[key].translate)
-                                    ? 'ПРОФ.'
-                                    : /ЛЮБИТ/i.test(players[key].translate)
-                                        ? 'ЛЮБИТ.'
-                                        : /АВТОР/i.test(players[key].translate)
-                                            ? 'АВТОР.'
-                                            : /МНОГОГОЛ/i.test(players[key].translate)
-                                                ? 'МНОГОГОЛ.'
-                                                : /ОДНОГОЛ/i.test(players[key].translate)
-                                                    ? 'ОДНОГОЛ.'
-                                                    : /ДВУХГОЛ/i.test(players[key].translate)
-                                                        ? 'ДВУХГОЛ.'
-                                                        : /ОРИГИНАЛ/i.test(players[key].translate)
-                                                            ? 'ОРИГИНАЛ'
-                                                            : /(ENG|ORIG|СУБТ)/i.test(players[key].translate)
-                                                                ? options.language && /en/i.test(options.language)
-                                                                    ? 'ENGLISH'
-                                                                    : 'СУБТИТИРЫ'
-                                                                : players[key].translate.toUpperCase()
-                            : '';
-                        j++;
-                        btns[key] = btns[key]
-                            .replace('{N}', j)
-                            .replace('{Q}', q)
-                            .replace('{T}', t)
-                            .replace(/\s+/g, ' ')
-                            .replace(/(^\s*)|(\s*)$/g, '');
-                        btns[key] = (btns[key]) ? btns[key] : key.toUpperCase();
-                        option.innerText = 'Источник: ' + btns[key];
-                    }
-                    else {
-                        j++;
-                        option.innerText = j + '► ' + key.toUpperCase();
-                    }
+                    j++;
+                    option.innerText ='Источник: ' + players[key].translate.toUpperCase();
                     if (first) {
                         yo_player(players[key].iframe, players[key].quality, players[key].translate, option, buttons, options.button_size);
                         first = false;
@@ -438,23 +388,6 @@ function yo_get_players_list() {
     var xmlHttp = new XMLHttpRequest();
     try {
         xmlHttp.open("GET", "https://reyohoho.space:4435/get_pl_list_1", false);
-        xmlHttp.send(null);
-        if (xmlHttp.status == 200) {
-            return xmlHttp.responseText;
-        } else {
-            return static_list;
-        }
-    } catch (e) {
-        console.log(e);
-        return static_list;
-    }
-}
-
-function yo_get_players_list2() {
-    var static_list = 'hdrezkauhd0: {Q} {T}, hdrezkauhd1: {Q} {T}, hdrezkauhd2: {Q} {T}, hdrezkauhd3: {Q} {T}, hdrezkauhd4: {Q} {T}, hdrezkauhd5: {Q} {T}, hdrezkauhd6: {Q} {T}, hdrezkauhd7: {Q} {T}, hdrezka: {Q} {T}, fancdn: {Q} {T}, alloha: {Q} {T}, collaps: {Q} {T}, videocdn: {Q} {T}, hdvb: {Q} {T}, bazon: {Q} {T}, ustore: {Q} {T}, iframe: {Q} {T}, zetflix: {Q} {T}, kodik: {Q} {T}, kodik1: {Q} {T}, kodik2: {Q} {T}, kodik3: {Q} {T}, kodik4: {Q} {T}, kodik5: {Q} {T}, kodik6: {Q} {T}, kodik7: {Q} {T}, kodik8: {Q} {T}, kodik9: {Q} {T}, kodik10: {Q} {T}, kodik11: {Q} {T}, kodik12: {Q} {T}, kodik13: {Q} {T}, kodik14: {Q} {T}, kodik15: {Q} {T}, kodik16: {Q} {T}, kodik17: {Q} {T}, kodik18: {Q} {T}, kodik19: {Q} {T}, kodik20: {Q} {T}, kodik21: {Q} {T}, kodik22: {Q} {T}, kodik23: {Q} {T}, kodik24: {Q} {T}, kodik25: {Q} {T}, kodik26: {Q} {T}, kodik27: {Q} {T}, kodik28: {Q} {T}, kodik29: {Q} {T}, kodik30: {Q} {T}, kodik31: {Q} {T}, kodik32: {Q} {T}, kodik33: {Q} {T}, kodik34: {Q} {T}, kodik35: {Q} {T}, kodik36: {Q} {T}, kodik37: {Q} {T}, kodik38: {Q} {T}, kodik39: {Q} {T}, kodik40: {Q} {T}, kodik41: {Q} {T}, kodik42: {Q} {T}, kodik43: {Q} {T}, kodik44: {Q} {T}, kodik45: {Q} {T}, kodik46: {Q} {T}, kodik47: {Q} {T}, kodik48: {Q} {T}, kodik49: {Q} {T}, kodik50: {Q} {T},  linktodo: {Q} {T},  svetacdn: {Q} {T},';
-    var xmlHttp = new XMLHttpRequest();
-    try {
-        xmlHttp.open("GET", "https://reyohoho.space:4435/get_pl_list_2", false);
         xmlHttp.send(null);
         if (xmlHttp.status == 200) {
             return xmlHttp.responseText;
