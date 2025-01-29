@@ -560,7 +560,8 @@
     <div id="snackbar_cp">Недоступно по требованию правообладателя</div>
     <div id="error">
         <div>Произошла ошибка при обращении к серверу =(</div>
-        <button type="submit" style="background-color: black;color: white;" onClick="refreshPage()">Повторить попытку</button>
+        <button type="submit" style="background-color: black;color: white;" onClick="refreshPage()">Повторить
+            попытку</button>
     </div>
     <nav class="navbar-drawer navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -670,9 +671,9 @@
                                 title="Новости, поддержка"></a>
                     </li>
                     <li>
-                        <a href="http://45.136.199.126:3001/status/reyohoho" style="display:flex" target="_blank">Статус<img
-                                class="navbar-icon" width="20" height="20" src="icons/icons8-monitoring-48.png"
-                                title="Статус"></a>
+                        <a href="http://45.136.199.126:3001/status/reyohoho" style="display:flex"
+                            target="_blank">Статус<img class="navbar-icon" width="20" height="20"
+                                src="icons/icons8-monitoring-48.png" title="Статус"></a>
                     </li>
                 </ul>
             </div>
@@ -708,8 +709,7 @@
         </script>
         <div id="yohoho" data-tv="1" data-resize="1" style="z-index: 101;">
             <div class="brand">ReYohoho
-                <img class="brand-icon" src="icons/basedge.png" width="64"
-                    height="64" onload="brandIconLoad(this)" />
+                <img class="brand-icon" src="icons/basedge.png" width="64" height="64" onload="brandIconLoad(this)" />
             </div>
             <div class="tabs" style="text-align:center;">
                 <input type="radio" name="tab-btn" id="tab-btn-2" value="" checked="">
@@ -726,19 +726,20 @@
                 </div>
                 <div class="form" id="content-1">
                     <input type="text" inputmode="numeric" oninput="this.value = this.value.replace(/\D+/g, '')"
-                        placeholder="Пример: 301 (Матрица)" id="input-kp" style="text-align:center;width: 250px;background-color: #3c3c3c;color: white;">
+                        placeholder="Пример: 301 (Матрица)" id="input-kp"
+                        style="text-align:center;width: 250px;background-color: #3c3c3c;color: white;">
                     <input type="button" id="btn-kp" value="Найти" style="background-color: #3c3c3c;">
                 </div>
                 <div class="form" id="content-2">
-                    <div> 
+                    <div>
                         <label>
-                            <input style="margin: 0; padding: 0;accent-color: black;" type="checkbox" id="save_history" name="save_history"
-                                value="value" onclick="handleSaveCheckBoxHistoryChange(this);" checked>
+                            <input style="margin: 0; padding: 0;accent-color: black;" type="checkbox" id="save_history"
+                                name="save_history" value="value" onclick="handleSaveCheckBoxHistoryChange(this);"
+                                checked>
                             Включить историю?
                         </label>
                         <a style="margin: 10px; padding: 0;accent-color: black;" href="/reyohoho/top.html">Топ 100<img
-                            class="navbar-icon" width="20" height="20" src="icons/home.svg"
-                            title="Топ 100"></a>
+                                class="navbar-icon" width="20" height="20" src="icons/home.svg" title="Топ 100"></a>
                     </div>
                     <input type="text" placeholder="Название фильма" id="input-search"
                         style="text-align:center;width: 250px;background-color: #3c3c3c;color: white;">
@@ -811,7 +812,7 @@
             var date_cookie = new Date(exdate).toUTCString();
             document.cookie = "save_history=" + cb.checked + '; expires=' + date_cookie + '; path=/';
         }
-        
+
         function isSaveHistoryEnabled() {
             var save_history = getCookie('save_history');
             if (save_history == "true" || save_history.length == 0) {
@@ -858,7 +859,7 @@
 
             function save_search(string_Item) {
                 if (isSaveHistoryEnabled() == false) {
-                        return;
+                    return;
                 }
                 if (string_Item.includes("undefined")) {
                     return;
@@ -907,12 +908,7 @@
                             url: source_url,
                             dataType: "json",
                             success: function (data) {
-                                name = ''
-                                if (data.name_ru == null) {
-                                    name = data.name_en
-                                } else {
-                                    name = data.name_ru
-                                }
+                                name = data.name_ru || data.name_en
                                 if (name != "null") {
                                     document.title = 'ReYohoho: ' + name + ' (' + data.year + ')';
                                     $('#kp-title').html(name + ' (' + data.year + ')');
@@ -951,12 +947,7 @@
                             url: source_url,
                             dataType: "json",
                             success: function (data) {
-                                name = ''
-                                if (data.name_ru == null) {
-                                    name = data.name_en
-                                } else {
-                                    name = data.name_ru
-                                }
+                                name = data.name_ru || data.name_en || data.name_original
                                 if (name != "null" && data.year != 0) {
                                     document.title = 'ReYohoho: ' + name + ' (' + data.year + ')';
                                     $('#kp-title').html(name + ' (' + data.year + ')');
@@ -964,17 +955,13 @@
                                 if (data.slogan != "null") {
                                     $('#kp-slogan').html(data.slogan);
                                 }
-                                if (data.rating_kinopoisk != "null" && data.rating_kinopoisk != null) {
-                                    var imdbHtml = ""
-                                    if (data.rating_imdb != "null" && data.rating_imdb != null) {
-                                        if (data.imdb_id == null) {
-                                            imdbHtml = '&nbsp;<img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-imdb-48.png" title="IMDB: ' + data.rating_imdb_vote_count + ' гол."><h> ' + data.rating_imdb + '</h>';
-                                        } else {
-                                            imdbHtml = '&nbsp;<a href="https://www.imdb.com/title/' + data.imdb_id + '/" target="_blank"><img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-imdb-48.png" title="IMDB: ' + data.rating_imdb_vote_count + ' гол."><h> ' + data.rating_imdb + '</h> <img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-external-link-48.png" title="OPEN"></a>&nbsp;<a href="https://www.imdb.com/title/' + data.imdb_id + '/parentalguide" target="_blank">&nbsp;ParentsGuide <img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-external-link-48.png" title="OPEN"></a>';
-                                        }
-                                    }
-                                    $('#kp-rating').html('<div>&nbsp;<a href="https://www.kinopoisk.ru/film/' + yohoho.dataset.kinopoisk + '/" target="_blank"><img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icon-kp-inv.svg?v=2" title="KP: ' + data.rating_kinopoisk_vote_count + ' гол."><h> ' + data.rating_kinopoisk + '</h> <img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-external-link-48.png" title="OPEN"></a>&nbsp;' + imdbHtml + "</div>");
+                                if (data.imdb_id == null) {
+                                    imdbHtml = '&nbsp;<img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-imdb-48.png" title="IMDB: ' + (data.rating_imdb_vote_count ?? '-') + ' гол."><h> ' + (data.rating_imdb ?? '-/-') + '</h>';
+                                } else {
+                                    imdbHtml = '&nbsp;<a href="https://www.imdb.com/title/' + data.imdb_id + '/" target="_blank"><img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-imdb-48.png" title="IMDB: ' + (data.rating_imdb_vote_count ?? '-') + ' гол."><h> ' + (data.rating_imdb ?? '-/-') + '</h> <img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-external-link-48.png" title="OPEN"></a>&nbsp;<a href="https://www.imdb.com/title/' + data.imdb_id + '/parentalguide" target="_blank">&nbsp;ParentsGuide <img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-external-link-48.png" title="OPEN"></a>';
                                 }
+                                $('#kp-rating').html('<div>&nbsp;<a href="https://www.kinopoisk.ru/film/' + yohoho.dataset.kinopoisk + '/" target="_blank"><img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icon-kp-inv.svg?v=2" title="KP: ' + (data.rating_kinopoisk_vote_count ?? '-') + ' гол."><h> ' + (data.rating_kinopoisk ?? '-/-') + '</h> <img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-external-link-48.png" title="OPEN"></a>&nbsp;' + imdbHtml + "</div>");
+
                                 var string_Item = '{"label":"' + name + ' (' + data.year + ')' + '","value":' + data.kinopoisk_id + ',"img":"' + data.poster_url_preview + '"}'
                                 save_search(string_Item)
                             },
@@ -1142,21 +1129,21 @@
                     },
                     create: function () {
                         $(this).data('ui-autocomplete')._renderItem = function (ul, item) {
-                        if (item.label.includes("_history")) {
-                            return $("<li class='ui-menu-item' data-value='" + item.value + "'></li>")
-                                .append("<div class='ui-menu-item-wrapper'>" +
-                                    "<img width=64 height=96 src='" + item.img + "'>" +
-                                    "<span class='item-label'>" + item.label.replace("_history", "") + "</span>&nbsp&nbsp" +
-                                    "<button class='delete-btn' type='button'>✖</button>" +
-                                    "</div>")
-                                .appendTo(ul);
-                        } else {
-                            return $("<li class='ui-menu-item' data-value='" + item.value + "'></li>")
-                                .append("<div class='ui-menu-item-wrapper'>" +
-                                    "<img width=64 height=96 src='" + item.img + "'>" +
-                                    "<span class='item-label'>" + item.label + "</span>" +
-                                    "</div>")
-                                .appendTo(ul);
+                            if (item.label.includes("_history")) {
+                                return $("<li class='ui-menu-item' data-value='" + item.value + "'></li>")
+                                    .append("<div class='ui-menu-item-wrapper'>" +
+                                        "<img width=64 height=96 src='" + item.img + "'>" +
+                                        "<span class='item-label'>" + item.label.replace("_history", "") + "</span>&nbsp&nbsp" +
+                                        "<button class='delete-btn' type='button'>✖</button>" +
+                                        "</div>")
+                                    .appendTo(ul);
+                            } else {
+                                return $("<li class='ui-menu-item' data-value='" + item.value + "'></li>")
+                                    .append("<div class='ui-menu-item-wrapper'>" +
+                                        "<img width=64 height=96 src='" + item.img + "'>" +
+                                        "<span class='item-label'>" + item.label + "</span>" +
+                                        "</div>")
+                                    .appendTo(ul);
                             }
                         };
                     },
@@ -1168,7 +1155,7 @@
                     $(this).autocomplete("search");
                 });
 
-                if(title && title.value && yohoho && title.value.startsWith('search')) {
+                if (title && title.value && yohoho && title.value.startsWith('search')) {
                     var search_text = title.value.replace('search=', '');
                     title.value = "";
                     $('#input-search').val(search_text);
@@ -1178,7 +1165,7 @@
             }
         });
 
-        $(document).on('mousedown', '.delete-btn', function(e) {
+        $(document).on('mousedown', '.delete-btn', function (e) {
             e.preventDefault();
             e.stopPropagation();
 
