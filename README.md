@@ -1,4 +1,7 @@
 # ReYohoho
+[Desktop App](https://github.com/reyohoho/reyohoho-desktop)
+
+# Mirrors
 [reyohoho.github.io/reyohoho](https://reyohoho.github.io/reyohoho)
 
 [reyohoho.serv00.net](https://reyohoho.serv00.net)
