@@ -906,17 +906,12 @@
                             url: source_url,
                             dataType: "json",
                             success: function (data) {
-                                name = ''
-                                if (data.name_ru == null) {
-                                    name = data.name_en
-                                } else {
-                                    name = data.name_ru
-                                }
-                                if (name != "null") {
+                                var name = data.name_ru || data.name_en || null;
+                                if (name != null) {
                                     document.title = 'ReYohoho: ' + name + ' (' + data.year + ')';
                                     $('#kp-title').html(name + ' (' + data.year + ')');
                                 }
-                                if (data.slogan != "null") {
+                                if (data.slogan != null) {
                                     $('#kp-slogan').html(data.slogan);
                                 }
                                 var string_Item = '{"label":"' + name + ' (' + data.year + ')' + '","value":"' + yohoho.dataset.kinopoisk + '","img":"https://kinopoiskapiunofficial.tech/images/posters/kp_small/1227434.jpg"}'
@@ -950,23 +945,30 @@
                             url: source_url,
                             dataType: "json",
                             success: function (data) {
-                                name = data.name_ru || data.name_en || data.name_original;
-                                if (name != "null" && data.year != 0) {
-                                    document.title = 'ReYohoho: ' + name + ' (' + data.year + ')';
-                                    $('#kp-title').html(name + ' (' + data.year + ')');
+                                var name = data.name_ru || data.name_en || data.name_original || null;
+                                if (name != null && data.year != 0) {
+                                    var year = '';
+                                    if(data.year != 0) {
+                                        year = ' (' + data.year + ')'
+                                    }
+                                    document.title = 'ReYohoho: ' + name + year;
+                                    $('#kp-title').html(name + year);
+                                } else {
+                                    document.title = 'ReYohoho: ' + name;
+                                    $('#kp-title').html(name);
                                 }
-                                if (data.slogan != "null") {
+                                if (data.slogan != null) {
                                     $('#kp-slogan').html(data.slogan);
                                 }
                                 var rating_kp_text = '-/-';
                                 var vote_count_kp_text = '0';
-                                if(data.rating_kinopoisk == "null" && data.rating_kinopoisk == null) {
+                                if(data.rating_kinopoisk != null) {
                                     rating_kp_text = data.rating_kinopoisk
                                     vote_count_kp_text = data.rating_kinopoisk_vote_count
                                 }
                                 var rating_imdb_text = '-/-';
                                 var vote_count_imdb_text = '0';
-                                if(data.rating_imdb == "null" && data.rating_imdb == null) {
+                                if(data.rating_imdb != null) {
                                     rating_imdb_text = data.rating_imdb
                                     vote_count_imdb_text = data.rating_imdb_vote_count
                                 }
