@@ -950,12 +950,7 @@
                             url: source_url,
                             dataType: "json",
                             success: function (data) {
-                                name = ''
-                                if (data.name_ru == null) {
-                                    name = data.name_en
-                                } else {
-                                    name = data.name_ru
-                                }
+                                name = data.name_ru || data.name_en || data.name_original;
                                 if (name != "null" && data.year != 0) {
                                     document.title = 'ReYohoho: ' + name + ' (' + data.year + ')';
                                     $('#kp-title').html(name + ' (' + data.year + ')');
@@ -963,17 +958,27 @@
                                 if (data.slogan != "null") {
                                     $('#kp-slogan').html(data.slogan);
                                 }
-                                if (data.rating_kinopoisk != "null" && data.rating_kinopoisk != null) {
-                                    var imdbHtml = ""
-                                    if (data.rating_imdb != "null" && data.rating_imdb != null) {
-                                        if (data.imdb_id == null) {
-                                            imdbHtml = '&nbsp;<img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-imdb-48.png" title="IMDB: ' + data.rating_imdb_vote_count + ' гол."><h> ' + data.rating_imdb + '</h>';
-                                        } else {
-                                            imdbHtml = '&nbsp;<a href="https://www.imdb.com/title/' + data.imdb_id + '/" target="_blank"><img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-imdb-48.png" title="IMDB: ' + data.rating_imdb_vote_count + ' гол."><h> ' + data.rating_imdb + '</h> <img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-external-link-48.png" title="OPEN"></a>&nbsp;<a href="https://www.imdb.com/title/' + data.imdb_id + '/parentalguide" target="_blank">&nbsp;ParentsGuide <img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-external-link-48.png" title="OPEN"></a>';
-                                        }
-                                    }
-                                    $('#kp-rating').html('<div>&nbsp;<a href="https://www.kinopoisk.ru/film/' + yohoho.dataset.kinopoisk + '/" target="_blank"><img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icon-kp-inv.svg?v=2" title="KP: ' + data.rating_kinopoisk_vote_count + ' гол."><h> ' + data.rating_kinopoisk + '</h> <img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-external-link-48.png" title="OPEN"></a>&nbsp;' + imdbHtml + "</div>");
+                                var rating_kp_text = '-/-';
+                                var vote_count_kp_text = '0';
+                                if(data.rating_kinopoisk == "null" && data.rating_kinopoisk == null) {
+                                    rating_kp_text = data.rating_kinopoisk
+                                    vote_count_kp_text = data.rating_kinopoisk_vote_count
                                 }
+                                var rating_imdb_text = '-/-';
+                                var vote_count_imdb_text = '0';
+                                if(data.rating_imdb == "null" && data.rating_imdb == null) {
+                                    rating_imdb_text = data.rating_imdb
+                                    vote_count_imdb_text = data.rating_imdb_vote_count
+                                }
+                                var imdbHtml = "";
+                                if (data.imdb_id == null) {
+                                    imdbHtml = '&nbsp;<img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-imdb-48.png" title="IMDB: ' + vote_count_imdb_text + ' гол."><h> ' + rating_imdb_text + '</h>';
+                                } else {
+                                    imdbHtml = '&nbsp;<a href="https://www.imdb.com/title/' + data.imdb_id + '/" target="_blank"><img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-imdb-48.png" title="IMDB: ' + vote_count_imdb_text + ' гол."><h> ' + rating_imdb_text + '</h> <img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-external-link-48.png" title="OPEN"></a>&nbsp;<a href="https://www.imdb.com/title/' + data.imdb_id + '/parentalguide" target="_blank">&nbsp;ParentsGuide <img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-external-link-48.png" title="OPEN"></a>';
+                                }
+                                $('#kp-rating').html('<div>&nbsp;<a href="https://www.kinopoisk.ru/film/' + yohoho.dataset.kinopoisk + '/" target="_blank"><img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icon-kp-inv.svg?v=2" title="KP: ' + vote_count_kp_text + ' гол."><h> ' + rating_kp_text + '</h> <img class="kp-img" width="20" height="20" style="margin-top: -6px" src="icons/icons8-external-link-48.png" title="OPEN"></a>&nbsp;' + imdbHtml + "</div>");
+
+
                                 var string_Item = '{"label":"' + name + ' (' + data.year + ')' + '","value":' + data.kinopoisk_id + ',"img":"' + data.poster_url_preview + '"}'
                                 save_search(string_Item)
                             },
