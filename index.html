@@ -946,17 +946,15 @@
                             dataType: "json",
                             success: function (data) {
                                 var name = data.name_ru || data.name_en || data.name_original || null;
-                                if (name != null && data.year != 0) {
+                                if (name != null) {
                                     var year = '';
                                     if(data.year != 0) {
                                         year = ' (' + data.year + ')'
                                     }
                                     document.title = 'ReYohoho: ' + name + year;
                                     $('#kp-title').html(name + year);
-                                } else {
-                                    document.title = 'ReYohoho: ' + name;
-                                    $('#kp-title').html(name);
                                 }
+                                
                                 if (data.slogan != null) {
                                     $('#kp-slogan').html(data.slogan);
                                 }
