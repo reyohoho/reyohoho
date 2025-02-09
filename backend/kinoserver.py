@@ -31,8 +31,6 @@ from dotenv import load_dotenv
 load_dotenv()
 app = Sanic("reyohoho")
 
-REZKA_HOST = os.getenv("REZKA_HOST")
-REZKA_PROXY = os.getenv("REZKA_PROXY")
 KINOPOISK_TECH_API_TOKEN = os.getenv("KINOPOISK_TECH_API_TOKEN")
 COLLAPS_TOKEN = os.getenv("COLLAPS_TOKEN")
 LUMEX_TOKEN = os.getenv("LUMEX_TOKEN")
@@ -66,42 +64,6 @@ CACHE_PL_TTL = 600  # 10m
 kinopoisk_api_client = KinopoiskApiClient(KINOPOISK_TECH_API_TOKEN)
 session_hdr = requests.Session()
 app.static("/", "yohoho", index="index.html")
-
-
-async def get_video_from_hdrezka(request, kinopoisk, type, name, year):
-    try:
-        # if DatabaseClient().get_enabled_players("hdrezka")["is_enabled"] == False:
-        #    raise SanicException("Disabled", status_code=403)
-        search_text2 = name
-        iframes = []
-        if search_text2 is None:
-            return None
-        if len(search_text2) == 0:
-            return None
-        client_ip = request.headers.get("X-Forwarded-For", request.remote_addr)
-        if client_ip is None or len(client_ip) == 0:
-            if type is None:
-                return None
-            client_ip = "45.136.199.126"  # uptime kuma
-        async with ClientSession() as session:
-            async with session.get(
-                f"http://localhost:8102/get_rezka/{search_text2}/{kinopoisk}/{year}/{client_ip}",
-                timeout=9,
-            ) as response:
-                try:
-                    response.raise_for_status()
-                    response = await response.json()
-                    if response is None:
-                        return None
-                    for it in response:
-                        iframes.append(it.replace("4435", "4446"))
-                    return iframes
-                except Exception as e:
-                    logger.warning(f"Failed  hdrezka {kinopoisk}: {e}")
-                    return None
-    except Exception as e:
-        logger.warning(f"Failed  hdrezka {kinopoisk}: {e}")
-        return None
 
 
 async def get_video_from_collaps(kinopoisk):
@@ -423,7 +385,6 @@ async def cache_request(request):
         get_video_from_vibix(kinopoisk),
         get_video_from_videoseed(kinopoisk),
         get_video_from_hdvb(kinopoisk),
-        get_video_from_hdrezka(request, kinopoisk, video_type, name, film_by_id.year),
         get_video_from_militorys(kinopoisk),
     ]
 
@@ -564,17 +525,6 @@ async def kinopoisk_info(request, kp_id):
     return text(
         json_string, headers={"Content-Type": "application/json; charset=utf-8"}
     )
-
-
-@app.get("/get_thumbnails/<endpoint:path>")
-async def get_thumbnails(request, endpoint):
-    if not endpoint:
-        return text("No valid endpoint provided")
-
-    q_link = REZKA_HOST + "/" + endpoint
-    client_ip = request.headers.get("X-Forwarded-For", request.remote_addr)
-    r = session_hdr.get(REZKA_PROXY + client_ip + "/" + q_link)
-    return raw(r.content, status=r.status_code)
 
 
 @app.get("/top/<type>")
