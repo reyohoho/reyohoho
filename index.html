@@ -521,6 +521,14 @@
         .ui-autocomplete:empty {
             display: none !important;
         }
+        @keyframes forceRender {
+            from {
+                transform: translateZ(0);
+            }
+            to {
+                transform: translateZ(0);
+            }
+        }
     </style>
 
 </head>
