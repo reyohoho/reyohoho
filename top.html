@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,12 +21,14 @@
             margin: 0;
             padding: 20px;
         }
+
         .grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 15px;
             margin: 0 auto;
         }
+
         .movie {
             display: flex;
             flex-direction: column;
@@ -38,6 +41,7 @@
             min-height: 500px;
             overflow: hidden;
         }
+
         .movie img {
             height: auto;
             width: 100%;
@@ -45,6 +49,7 @@
             object-fit: cover;
             border-radius: 5px;
         }
+
         .movie h3 {
             font-size: 1.2em;
             margin: 5px 0;
@@ -53,14 +58,17 @@
             text-overflow: ellipsis;
             min-width: 0;
         }
+
         .movie h3:hover {
             text-overflow: clip;
             overflow: visible;
             white-space: normal;
         }
+
         .movie p {
             margin: 3px 0;
         }
+
         .movie a {
             display: inline-block;
             margin-top: 10px;
@@ -71,10 +79,12 @@
             border-radius: 5px;
             transition: background 0.3s, color 0.3s;
         }
+
         .movie a:hover {
             background-color: white;
             color: black;
         }
+
         .views {
             display: flex;
             align-items: center;
@@ -83,11 +93,13 @@
             font-size: 0.9em;
             color: #bbb;
         }
+
         @media (max-width: 600px) {
             .grid {
                 grid-template-columns: 1fr;
             }
         }
+
         .home-button {
             margin-right: 10px;
             padding: 10px 15px;
@@ -98,22 +110,27 @@
             cursor: pointer;
             transition: background 0.3s;
         }
+
         .home-button:hover {
             background-color: white;
             color: black;
         }
+
         .header {
             display: flex;
             align-items: center;
             justify-content: flex-start;
             margin-bottom: 20px;
         }
+
         .header h1 {
             margin: 0;
         }
+
         .menu {
             margin: 20px 0;
         }
+
         .menu button {
             margin-right: 10px;
             padding: 10px 15px;
@@ -124,14 +141,17 @@
             cursor: pointer;
             transition: background 0.3s;
         }
+
         .menu button:hover {
             background-color: white;
             color: black;
         }
+
         .menu button.active {
             background-color: white;
             color: black;
         }
+
         .loader {
             border: 8px solid black;
             border-top: 8px solid white;
@@ -142,11 +162,57 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .custom-select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: black;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 10px 30px 10px 10px;
+            font-size: 16px;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .custom-select:hover {
+            background-color: black;
+            border-color: black;
+        }
+
+        .custom-select:focus {
+            border-color: black;
+        }
+
+        .custom-select-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .custom-select-wrapper::after {
+            content: "▼";
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: white;
+            font-size: 12px;
         }
     </style>
 </head>
+
 <body>
     <script type="text/javascript">
         (function (m, e, t, r, i, k, a) {
@@ -168,13 +234,19 @@
     </noscript>
     <div class="header">
         <h1>Топ 100</h1>
-        <button class="home-button" style="margin-left: 10px;" onclick="window.location.href='https://reyohoho.github.io/reyohoho/'">На главную</button>
+        <button class="home-button" style="margin-left: 10px;"
+            onclick="window.location.href='https://reyohoho.github.io/reyohoho/'">На главную</button>
     </div>
     <div class="menu">
-        <button class="active" onclick="fetchMovies('https://reyohoho.space/top/all', this)">Всё время</button>
-        <button onclick="fetchMovies('https://reyohoho.space/top/30d', this)">30 дней</button>
-        <button onclick="fetchMovies('https://reyohoho.space/top/7d', this)">7 дней</button>
-        <button onclick="fetchMovies('https://reyohoho.space/top/24h', this)">24 часа</button>
+        <button class="active" data-api-url="https://reyohoho.space/top/all"">Всё время</button>
+        <button data-api-url="https://reyohoho.space/top/30d">30 дней</button>
+        <button data-api-url="https://reyohoho.space/top/7d">7 дней</button>
+        <button data-api-url="https://reyohoho.space/top/24h">24 часа</button>
+        <select id="typeFilter" onchange="updateTypeFilter()" class="custom-select">
+            <option value="all">Все</option>
+            <option value="movie">Фильмы</option>
+            <option value="series">Сериалы</option>
+        </select>
     </div>
     <div id="loading" style="display:none; text-align:center;">
         <span>Загрузка...</span>
@@ -183,11 +255,20 @@
     <div class="grid" id="movieGrid"></div>
 
     <script>
-        async function fetchMovies(apiUrl, activeButton) {
+
+        function updateTypeFilter() {
+            const typeFilter = document.getElementById('typeFilter').value;
+            const activeButton = document.querySelector('.menu button.active');
+            const apiUrl = activeButton.getAttribute('data-api-url');
+            fetchMovies(apiUrl, activeButton, typeFilter);
+        }
+
+        async function fetchMovies(apiUrl, activeButton, typeFilter = 'all') {
             document.getElementById('loading').style.display = 'block';
             document.getElementById('movieGrid').style.display = 'none';
-            
-            const response = await fetch(apiUrl);
+
+            const url = `${apiUrl}?type=${typeFilter}`;
+            const response = await fetch(url);
             const movies = await response.json();
 
             displayMovies(movies);
@@ -205,14 +286,14 @@
             let n = Math.abs(number);
             n %= 100;
             if (n >= 5 && n <= 20) {
-            return five;
+                return five;
             }
             n %= 10;
             if (n === 1) {
-            return one;
+                return one;
             }
             if (n >= 2 && n <= 4) {
-            return two;
+                return two;
             }
             return five;
         }
@@ -227,7 +308,7 @@
                 const ratingImdb = movie.rating_imdb !== null ? movie.rating_imdb : '—';
                 const hiddenKpButton = movie.rating_kp === null ? "hidden" : "";
                 const hiddenImdbButton = movie.rating_imdb === null ? "hidden" : "";
-                
+
                 const viewsString = getNoun(movie.views_count, 'просмотр', 'просмотра', 'просмотров');
 
                 movieElement.innerHTML = `
@@ -244,12 +325,22 @@
                         <a href="${movie.url_imdb}" target="_blank" class="${hiddenImdbButton}">IMDb</a>
                     </div>
                 `;
-                
+
                 grid.appendChild(movieElement);
             });
         }
 
-        fetchMovies('https://reyohoho.space/top/all', document.querySelector('.menu button.active'));
+
+        const buttons = document.querySelectorAll('.menu button');
+        buttons.forEach(button => {
+            button.addEventListener('click', function () {
+                const typeFilter = document.getElementById('typeFilter').value;
+                fetchMovies(this.getAttribute('data-api-url') || 'https://reyohoho.space/top/all', this, typeFilter);
+            });
+        });
+
+        fetchMovies('https://reyohoho.space/top/all', document.querySelector('.menu button.active'), 'all');
     </script>
 </body>
+
 </html>
