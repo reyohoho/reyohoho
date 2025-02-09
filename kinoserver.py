@@ -8,6 +8,8 @@ import nkinopoiskpy
 
 from nkinopoiskpy.movie import Movie
 
+from id_parse import KodikParser
+
 import json
 import logging
 import sys
@@ -43,6 +45,9 @@ app.add_middleware(
 @app.post("/cache")
 async def cache(kinopoisk: str = Form(...)):
     iframes = []
+    if 'shiki' in kinopoisk:
+        parser = KodikParser()
+        kinopoisk = parser.search_by_id(id=kinopoisk) or kinopoisk
     try:
         iframe_video = session.get('https://iframe.video/api/v2/search?kp=' + str(kinopoisk), timeout=2)
         first_result = iframe_video.json()["results"][0]
