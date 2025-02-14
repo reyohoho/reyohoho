@@ -9,3 +9,7 @@
 [reyohoho.surge.sh](https://reyohoho.surge.sh)
 
 [reyohoho.vercel.app](https://reyohoho.vercel.app)
+
+[reyohoho.onrender.com](https://reyohoho.onrender.com)
+
+[reyohoho-c1920f.gitlab.io](https://reyohoho-c1920f.gitlab.io)
