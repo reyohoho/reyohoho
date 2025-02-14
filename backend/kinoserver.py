@@ -56,7 +56,14 @@ origins = [
 o1rigins = ["*"]
 
 
-cors = CORS(app, resources={r"*": {"origins": origins}})
+cors = CORS(
+    app,
+    resources={
+        r"/*": {"origins": origins},
+        r"/top/*": {"origins": "*"},
+        r"/top": {"origins": "*"},
+    },
+)
 
 CACHE_TOP_TTL = 86400  # 24h
 CACHE_PL_TTL = 600  # 10m
