@@ -1,0 +1,16 @@
+name: Deploy to surge.sh
+
+on: push
+
+jobs:
+  my-job:
+    name: Deploy to surge.sh
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to reyohoho.surge.sh
+        uses: dswistowski/surge-sh-action@v1
+        with:
+          domain: 'reyohoho.surge.sh'
+          project: '.'
+          login: ${{ secrets.surge_login }}
+          token: ${{ secrets.surge_token }}
