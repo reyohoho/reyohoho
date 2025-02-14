@@ -540,6 +540,10 @@
 <div id="garland" style="display:none"></div>
 
 <body class="index">
+    <script>
+        const basePath = window.location.pathname.includes('/reyohoho/') ? '/reyohoho/' : '/';
+        document.write('<base href="' + basePath + '">');
+    </script>
     <script type="text/javascript">
         (function (m, e, t, r, i, k, a) {
             m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments) };
@@ -578,7 +582,7 @@
                         <nav id="drawer">
                             <ul>
                                 <li>
-                                    <a style="display:flex" href="https://reyohoho.github.io/reyohoho/">На главную<img
+                                    <a style="display:flex" href="/">На главную<img
                                             class="navbar-icon" width="20" height="20" src="icons/home.svg"
                                             title="На главную"></a>
                                 </li>
@@ -611,7 +615,7 @@
                                             title="Github"></a>
                                 </li>
                                 <li>
-                                    <a href="/reyohoho/contact.html" target="_blank">Copyright<img class="navbar-icon"
+                                    <a href="contact.html" target="_blank">Copyright<img class="navbar-icon"
                                             width="20" height="20" src="icons/law-scales-svgrepo-com.svg"
                                             title="Copyright"></a>
                                 </li>
@@ -640,7 +644,7 @@
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a style="display:flex" href="https://reyohoho.github.io/reyohoho/">На главную<img
+                        <a style="display:flex" href="/">На главную<img
                                 class="navbar-icon" width="20" height="20" src="icons/home.svg" title="На главную"></a>
                     </li>
                     <li>
@@ -670,7 +674,7 @@
                                 width="20" height="20" src="icons/github-mark-white.svg" title="Github"></a>
                     </li>
                     <li>
-                        <a href="/reyohoho/contact.html" target="_blank">Copyright<img class="navbar-icon" width="20"
+                        <a href="contact.html" target="_blank">Copyright<img class="navbar-icon" width="20"
                                 height="20" src="icons/law-scales-svgrepo-com.svg" title="Copyright"></a>
                     </li>
 
@@ -746,7 +750,7 @@
                                 value="value" onclick="handleSaveCheckBoxHistoryChange(this);" checked>
                             Включить историю?
                         </label>
-                        <a style="margin: 10px; padding: 0;accent-color: black;" href="/reyohoho/top.html">Топ 100<img
+                        <a style="margin: 10px; padding: 0;accent-color: black;" href="top.html">Топ 100<img
                             class="navbar-icon" width="20" height="20" src="icons/home.svg"
                             title="Топ 100"></a>
                     </div>
