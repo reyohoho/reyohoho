@@ -10,6 +10,4 @@
 
 [reyohoho.serv00.net](https://reyohoho.serv00.net)
 
-[reyohoho-c1920f.gitlab.io](https://reyohoho-c1920f.gitlab.io)
-
 [reyohoho.surge.sh](https://reyohoho.surge.sh)
