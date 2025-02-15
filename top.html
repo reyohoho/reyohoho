@@ -215,6 +215,7 @@
 
 <body>
     <script>
+        window.API_URL = localStorage.getItem('API_URL');
         const basePath = window.location.pathname.includes('/reyohoho/') ? '/reyohoho/' : '/';
         document.write('<base href="' + basePath + '">');
     </script>
@@ -242,10 +243,10 @@
         <h1>Топ 100</h1>
     </div>
     <div class="menu">
-        <button class="active" data-api-url="https://reyohoho.space/top/all">Всё время</button>
-        <button data-api-url="https://reyohoho.space/top/30d">30 дней</button>
-        <button data-api-url="https://reyohoho.space/top/7d">7 дней</button>
-        <button data-api-url="https://reyohoho.space/top/24h">24 часа</button>
+        <button class="active" data-api-url="/top/all">Всё время</button>
+        <button data-api-url="/top/30d">30 дней</button>
+        <button data-api-url="/top/7d">7 дней</button>
+        <button data-api-url="/top/24h">24 часа</button>
         <select id="typeFilter" onchange="updateTypeFilter()" class="custom-select">
             <option value="all">Все</option>
             <option value="movie">Фильмы</option>
@@ -263,7 +264,7 @@
         function updateTypeFilter() {
             const typeFilter = document.getElementById('typeFilter').value;
             const activeButton = document.querySelector('.menu button.active');
-            const apiUrl = activeButton.getAttribute('data-api-url');
+            const apiUrl = `${window.API_URL}${activeButton.getAttribute('data-api-url')}`;
             fetchMovies(apiUrl, activeButton, typeFilter);
         }
 
@@ -339,11 +340,11 @@
         buttons.forEach(button => {
             button.addEventListener('click', function () {
                 const typeFilter = document.getElementById('typeFilter').value;
-                fetchMovies(this.getAttribute('data-api-url') || 'https://reyohoho.space/top/all', this, typeFilter);
+                fetchMovies(`${window.API_URL}${this.getAttribute('data-api-url')}` || `${window.API_URL}/top/all`, this, typeFilter);
             });
         });
 
-        fetchMovies('https://reyohoho.space/top/all', document.querySelector('.menu button.active'), 'all');
+        fetchMovies(`${window.API_URL}/top/all`, document.querySelector('.menu button.active'), 'all');
     </script>
 </body>
 

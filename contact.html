@@ -18,20 +18,18 @@
     <meta name="apple-mobile-web-app-title" content="Yohoho">
     <meta name="application-name" content="Yohoho">
     <meta name="theme-color" content="black">
-
-    <link rel="stylesheet" type="text/css"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link href="scripts/fonts.css" rel="stylesheet">
 
     <style>
         .index,
         .contact,
         .webmaster,
         body {
-            background: black;
-            font-family: Neucha, sans-serif;
-            color: #fff;
-            margin: 50px auto 60px;
-            font-size: 14px;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
         }
 
         .index,
@@ -226,6 +224,7 @@
         .btn-group-justified .btn-group {
             padding: 2px !important
         }
+
         .home-button {
             margin-right: 10px;
             padding: 10px 15px;
@@ -236,6 +235,7 @@
             cursor: pointer;
             transition: background 0.3s;
         }
+
         .home-button:hover {
             background-color: white;
             color: black;
@@ -245,15 +245,17 @@
 </head>
 
 <body class="contact">
-    <button class="home-button" style="margin-left: 10px;" onclick="window.location.href='index.html'">На главную</button>
+    <button class="home-button" style="margin-left: 10px;" onclick="window.location.href='index.html'">На
+        главную</button>
 
     <div class="search-line">
-        <div class="brand">ReYohoho</div>
+        <div class="brand" style="font-family: Neucha;">ReYohoho</div>
         <div style="text-align: justify">
             Если Вы владелец авторских прав, просим Вас учесть, что все плееры на сайте из сторонних API источников.
             Пишите напрямую по контактным данным этих видео-хостингов, для соблюдения DMCA. В 99% случаев они удаляют
             спорный контент в течении 24 часов. Плееры недоступные на первоисточнике априори не будут отображаться на
-            ReYohoho. Или напишите на почту reyohoho@proton.me или в тг https://t.me/ReYohoho_support<br><br>
+            ReYohoho. Или напишите на почту reyohoho@proton.me или в Телеграм <a
+                href="https://t.me/ReYohoho_support">https://t.me/ReYohoho_support</a><br><br>
             По вопросам рекламы в плеерах, ошибок, авторского права и всего остального, пишите на контактные данные
             видео-хостингов!
             <br><br>
@@ -262,26 +264,16 @@
             cases they remove
             controversial content within 24 hours. Players that are not available on the original source will a priori
             not be displayed on
-            ReYohoho. Or write to reyohoho@proton.me or TG: https://t.me/ReYohoho_support<br><br>
+            ReYohoho. Or write to reyohoho@proton.me or Telegram: <a
+                href="https://t.me/ReYohoho_support">https://t.me/ReYohoho_support</a><br><br>
             For questions about advertising in players, errors, copyright and everything else, write to the contact
             details
             video hosting!
             <br><br><br>
-            <p class="text-muted">reyohoho@proton.me https://t.me/ReYohoho_support</p>
+            <p class="text-muted">reyohoho@proton.me <a
+                    href="https://t.me/ReYohoho_support">https://t.me/ReYohoho_support</a></p>
         </div>
     </div>
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
-    <script>
-        WebFont.load({
-            google: {
-                families: ['Neucha']
-            }
-        });
-    </script>
-
 </body>
 
 </html>

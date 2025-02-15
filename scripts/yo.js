@@ -93,7 +93,7 @@ function yo(self) {
         ? options.bg.replace(/[^0-9a-z]/ig, '')
         : '000';
 
-    var options_url = "https://reyohoho.space:4435/cache";
+    var options_url = `${window.API_URL}/cache`;
     options.url = null;
     options.code = "31";
     var options_loading = options.loading
@@ -387,7 +387,7 @@ function yo_get_players_list() {
     var static_list = 'hdrezkauhd0,hdrezkauhd1,hdrezkauhd2,hdrezkauhd3,hdrezkauhd4,hdrezkauhd5,hdrezkauhd6,hdrezkauhd7,hdrezkauhd8,hdrezka,fancdn,alloha,collaps,videocdn,hdvb,bazon,ustore,iframe,pleer,zetflix,kodik,kodik1,kodik2,kodik3,kodik4,kodik5,kodik6,kodik7,kodik8,kodik9,kodik10,kodik11,kodik12,kodik13,kodik14,kodik15,kodik16,kodik17,kodik18,kodik19,kodik20,kodik21,kodik22,kodik23,kodik24,kodik25,kodik26,kodik27,kodik28,kodik29,kodik30,kodik31,kodik32,kodik33,kodik34,kodik35,kodik36,kodik37,kodik38,kodik39,kodik40,kodik41,kodik42,kodik43,kodik44,kodik45,kodik46,kodik47,kodik48,kodik49,kodik50,linktodo,svetacdn';
     var xmlHttp = new XMLHttpRequest();
     try {
-        xmlHttp.open("GET", "https://reyohoho.space:4435/get_pl_list_1", false);
+        xmlHttp.open("GET", `${window.API_URL}/get_pl_list_1`, false);
         xmlHttp.send(null);
         if (xmlHttp.status == 200) {
             return xmlHttp.responseText;
@@ -451,19 +451,3 @@ function yo_resize() {
     yi.setAttribute('width', w.toString());
     yi.parentNode.style.width = w + 'px';
 }
-
-(function () {
-    var a = document.querySelectorAll('[data-ahoy]');
-    if (a && a.length) {
-        for (var i in a) {
-            if (a.hasOwnProperty(i) && a[i]) {
-                a[i].addEventListener('click', function () {
-                    yo(this);
-                });
-            }
-        }
-    }
-    else {
-        yo();
-    }
-})();

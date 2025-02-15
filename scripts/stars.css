@@ -50,6 +50,6 @@ a:visited {
 }
 
 .stars {
-    background: #000 url(icons/stars.png) repeat top center;
+    background: #000 url(/icons/stars.png) repeat top center;
     z-index: 0;
 }
