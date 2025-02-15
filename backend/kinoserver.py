@@ -51,9 +51,12 @@ origins = [
     "https://reyohoho.serv00.net",
     "https://reyohoho.surge.sh",
     "https://reyohoho.vercel.app",
+    "https://reyohoho.onrender.com",
+    "https://reyohoho-c1920f.gitlab.io",
 ]
 
-o1rigins = ["*"]
+if DatabaseClient().get_enabled_players("cors")["is_enabled"] == False:
+    origins = "*"
 
 
 cors = CORS(
@@ -71,6 +74,41 @@ CACHE_PL_TTL = 600  # 10m
 kinopoisk_api_client = KinopoiskApiClient(KINOPOISK_TECH_API_TOKEN)
 session_hdr = requests.Session()
 app.static("/", "yohoho", index="index.html")
+geo_reader = geoip2.database.Reader(GEOIP_DB_PATH)
+
+
+async def get_video_from_hdrezka(request, kinopoisk, type, name, year, referer):
+    try:
+        search_text2 = name
+        iframes = []
+        if search_text2 is None:
+            return None
+        if len(search_text2) == 0:
+            return None
+        client_ip = request.headers.get("x-real-ip", request.remote_addr)
+        if client_ip is None or len(client_ip) == 0:
+            if type is None:
+                return None
+            client_ip = "45.136.199.126"  # uptime kuma
+        async with ClientSession() as session:
+            async with session.get(
+                f"http://localhost:8102/get_rezka/{search_text2}/{kinopoisk}/{year}/{client_ip}",
+                timeout=9,
+            ) as response:
+                try:
+                    response.raise_for_status()
+                    response = await response.json()
+                    if response is None:
+                        return None
+                    for it in response:
+                        iframes.append(it.replace("4435", "4446"))
+                    return iframes
+                except Exception as e:
+                    logger.warning(f"Failed  hdrezka {kinopoisk}: {e}")
+                    return None
+    except Exception as e:
+        logger.warning(f"Failed  hdrezka {kinopoisk}: {e}")
+        return None
 
 
 async def get_video_from_collaps(kinopoisk):
@@ -249,18 +287,22 @@ async def get_video_from_videoseed(kinopoisk):
 
 
 turbo_block_countries = {"AU", "CA", "FR", "DE", "NL", "ES", "TR", "GB", "US", "JP"}
+
+
 async def get_video_from_turbo(request, kinopoisk):
     try:
         url = f"https://4f463c79.obrut.show/embed/IDN/kinopoisk/{kinopoisk}"
-        with geoip2.database.Reader(GEOIP_DB_PATH) as reader:
-            client_ip = request.headers.get("X-Forwarded-For", request.remote_addr)
-            try:
-                response = reader.country(client_ip)
-            except Exception as e:
-                logger.warning(f"Failed check geoip: {e}")
-            if response.country.iso_code in turbo_block_countries:
-                logger.warning(f"Turbo block by iso code: {response.country.iso_code}")
+        client_ip = request.headers.get("x-real-ip", request.remote_addr)
+        try:
+            geo_response = geo_reader.country(client_ip)
+            if geo_response.country.iso_code in turbo_block_countries:
+                logger.warning(
+                    f"Turbo block by iso code: {geo_response.country.iso_code}"
+                )
                 return None
+        except Exception as e:
+            logger.warning(f"Failed check geoip: {e}")
+
         async with CachedSession(cache=app.ctx.backend) as session:
             async with session.get(
                 url,
@@ -306,6 +348,44 @@ async def get_video_from_kodik(kinopoisk):
     except Exception as e:
         logger.warning(f"Failed kodik: {e}")
         return None
+
+
+async def get_quality_for_torrents(name):
+    url = (
+        f"http://localhost:9117/api/v1.0/torrents?search={name}&apikey=null&exact=true"
+    )
+    logger.info(url)
+    async with ClientSession() as session:
+        try:
+            async with session.get(url, timeout=5) as response:
+                response.raise_for_status()
+                results = await response.json()
+                max_quality = 480
+                hdr = " SDR"
+                dolby = ""
+                hevc = ""
+                for result in results:
+                    if result["quality"] > max_quality:
+                        max_quality = result["quality"]
+                if "hdr" in str(results):
+                    hdr = " HDR/SDR"
+                if "hevc" in str(results).lower():
+                    hevc = " HEVC"
+                if "dolby" in str(results).lower():
+                    dolby = " Dolby Vision"
+                quality_text = ""
+                if max_quality != 480:
+                    quality_text = f"{max_quality}p"
+                iframe_iframe = format_result(
+                    "torrents",
+                    "https://reyohoho.space:4437/template/reyohoho_vip.html",
+                    f"ReYohoho VIP>{quality_text}{hdr}{hevc}{dolby}",
+                    "",
+                )
+                return iframe_iframe
+        except Exception as e:
+            logger.warning(f"Error processing torrents API: {e}")
+            return None
 
 
 async def cache_kodik(kinopoisk: str) -> tuple[str | None, str | None]:
@@ -392,7 +472,16 @@ async def cache_request(request):
         get_video_from_vibix(kinopoisk),
         get_video_from_videoseed(kinopoisk),
         get_video_from_hdvb(kinopoisk),
+        get_video_from_hdrezka(
+            request,
+            kinopoisk,
+            video_type,
+            name,
+            film_by_id.year,
+            str(request.headers.get("referer")),
+        ),
         get_video_from_militorys(kinopoisk),
+        get_quality_for_torrents(name),
     ]
 
     wrapped_tasks = [asyncio.wait_for(task, timeout=10) for task in tasks]
@@ -423,7 +512,7 @@ async def cache_request(request):
 
     if len(iframes) > 0:
         try:
-            client_ip = request.headers.get("X-Forwarded-For", request.remote_addr)
+            client_ip = request.headers.get("x-real-ip", request.remote_addr)
             logger.info(f"Pre add watch: kp_id: {kinopoisk}, IP:{client_ip}")
             DatabaseClient().insert_video_stats(
                 kinopoisk,
@@ -583,13 +672,13 @@ async def top(request, type):
 
 
 @app.get("/get_pl_list_1")
-@cached(ttl=CACHE_PL_TTL, serializer=PickleSerializer(), key="pl_key")
+# @cached(ttl=CACHE_PL_TTL, serializer=PickleSerializer(), key="pl_key")
 async def get_pl_list_1(request):
     return text(DatabaseClient().get_pl_1()["data"])
 
 
 @app.get("/get_dons")
-@cached(ttl=CACHE_PL_TTL, serializer=PickleSerializer(), key="dons_key")
+# @cached(ttl=CACHE_PL_TTL, serializer=PickleSerializer(), key="dons_key")
 async def get_dons(request):
     dons = "\n".join([item["name"] for item in DatabaseClient().get_dons()])
     return text(dons)
@@ -601,6 +690,16 @@ async def test(request, exception):
         {"exception": str(exception), "status": exception.status_code},
         status=exception.status_code,
     )
+
+
+@app.get("/restart/<password>")
+async def restart_handler(request, password):
+    if password != "blablabla":
+        return json(None, 401)
+    for name, worker in request.app.m.workers.items():
+        if worker.get("server"):
+            request.app.m.restart(name)
+    return json(None, status=202)
 
 
 @app.before_server_start
