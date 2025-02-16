@@ -27,8 +27,6 @@
     <meta name="theme-color" content="black">
 
     <link rel="stylesheet" type="text/css" href="scripts/bootstrap.min.css" />
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-remote-config.js"></script>
     <script src="scripts/yo.js?37"></script>
     <script src="scripts/jquery.min.js"></script>
     <script src="scripts/bootstrap.min.js"></script>
@@ -635,24 +633,6 @@
                 }
             }
             const defaultApiUrl = "https://reyohoho.space";
-            const firebaseConfig = {
-                apiKey: "AIzaSyBjNTdXlrqP3vHpU_gCtbn69hJWxmduffI",
-                authDomain: "reyohoho.firebaseapp.com",
-                projectId: "reyohoho",
-                storageBucket: "reyohoho.firebasestorage.app",
-                messagingSenderId: "391868605461",
-                appId: "1:391868605461:web:b2336f900357b6cd939a1c"
-            };
-
-            const app = firebase.initializeApp(firebaseConfig);
-            const remoteConfig = firebase.remoteConfig();
-            remoteConfig.settings = {
-                fetchTimeoutMillis: 60000,
-                minimumFetchIntervalMillis: 60000,
-            };
-            remoteConfig.defaultConfig = {
-                api_url: defaultApiUrl
-            };
 
             function afterConfig() {
                 loadDons();
@@ -661,32 +641,46 @@
 
             async function loadRemoteConfig() {
                 try {
-                    await remoteConfig.fetchAndActivate()
-                        .then(() => {
-                            const apiUrl = remoteConfig.getString('api_url');
+                    const configUrl = 'https://gist.githubusercontent.com/reyohoho/c4de4c47dd9b2c3d4b2985a74056e55c/raw/reyohoho_desktop_domains.json?t=' + Math.random();
+
+                    fetch(configUrl)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+
+                        })
+                        .then(remoteConfig => {
+                            console.log('Data received:', remoteConfig);
+                            const apiUrl = remoteConfig['api_domain'];
                             window.API_URL = apiUrl;
                             localStorage.setItem('API_URL', apiUrl);
                             document.getElementById('loader').style.display = 'none';
                             document.getElementById('content').style.display = 'block';
                             console.log('API URL loaded:', window.API_URL);
                             afterConfig();
+
                         })
                         .catch(error => {
-                            const apiUrl = remoteConfig.getString('api_url');
-                            window.API_URL = apiUrl;
-                            localStorage.setItem('API_URL', apiUrl);
+                            window.API_URL = defaultApiUrl;
+                            localStorage.setItem('API_URL', defaultApiUrl);
                             document.getElementById('loader').style.display = 'none';
                             console.error('Error fetching Remote Config:', error);
+                            document.getElementById('content').style.display = 'block';
                             afterConfig();
-                        });
 
+                        });
                 } catch (error) {
                     window.API_URL = defaultApiUrl;
                     localStorage.setItem('API_URL', defaultApiUrl);
-                    console.error('Remote Config:', error);
+                    document.getElementById('loader').style.display = 'none';
+                    console.error('Error fetching Remote Config 2:', error);
+                    document.getElementById('content').style.display = 'block';
                     afterConfig();
                 }
             }
+
             function loadDons() {
                 try {
                     var textArray = [];
