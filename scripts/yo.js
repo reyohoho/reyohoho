@@ -1,6 +1,10 @@
 function player_selector(command) {
-    eval(command)
+    eval(command);
 };
+
+function saveSelection(value) {
+    localStorage.setItem('selectedPlayer', value);
+}
 
 function yo_ahoy_key(event) {
     if (!event || (!event.key && !event.keyCode)) return;
@@ -238,7 +242,7 @@ function yo(self) {
             var first = true;
             var buttons = document.createElement('select');
             buttons.setAttribute('id', 'yohoho-buttons');
-            buttons.setAttribute('onchange', "player_selector(this.options[this.selectedIndex].getAttribute('player'));");
+            buttons.setAttribute('onchange', "player_selector(this.options[this.selectedIndex].getAttribute('player')); saveSelection(this.value)");
 
             var keys = options.player.split(options.separator);
             if (/\/\/|%2F%2F/i.test(options.player)) {
@@ -299,6 +303,16 @@ function yo(self) {
                 for (var i = 0; i < searchItems.length; i++)
                     searchItems[i].style.marginTop = "0%";
                 document.querySelector('#player-selector').appendChild(buttons);
+                var savedValue = localStorage.getItem('selectedPlayer');
+                if (savedValue) {
+                    var optionExists = Array.from(buttons.options).some(option => option.value === savedValue);
+                    if(optionExists) {
+                        buttons.value = savedValue;
+                        const event = new Event('change', { bubbles: true });
+                        buttons.dispatchEvent(event);
+                    }
+
+                }
                 if (keys.length > options.button_limit) {
                     yo_page(1, options.button_size);
                 }
