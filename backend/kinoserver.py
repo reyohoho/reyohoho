@@ -43,9 +43,6 @@ REDIS_ADDRESS = os.getenv("REDIS_ADDRESS")
 GEOIP_DB_PATH = os.getenv("GEOIP_DB_PATH")
 
 origins = [
-    "https://reyohoho.space",
-    "https://reyohoho.space:4435",
-    "https://reyohoho.space:4446",
     "https://reyohoho.github.io",
     "https://reyohoho.github.io/reyohoho",
     "https://reyohoho.serv00.net",
