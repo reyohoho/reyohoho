@@ -285,7 +285,7 @@ function yo(self) {
                     option.dataset.quality = players[key].quality;
                     option.dataset.translate = players[key].translate;
                     j++;
-                    option.innerText ='Источник: ' + players[key].translate.toUpperCase();
+                    option.innerText = 'Источник: ' + players[key].translate.toUpperCase();
                     if (first) {
                         yo_player(players[key].iframe, players[key].quality, players[key].translate, option, buttons, options.button_size);
                         first = false;
@@ -306,7 +306,7 @@ function yo(self) {
                 var savedValue = localStorage.getItem('selectedPlayer');
                 if (savedValue) {
                     var optionExists = Array.from(buttons.options).some(option => option.value === savedValue);
-                    if(optionExists) {
+                    if (optionExists) {
                         buttons.value = savedValue;
                         const event = new Event('change', { bubbles: true });
                         buttons.dispatchEvent(event);
@@ -374,7 +374,7 @@ function yo_get(url, body, callback) {
             if (YoXmlHttp.status === 200) {
                 callback(yo_json(YoXmlHttp.responseText), YoXmlHttp.responseText);
                 console.log("YoXmlHttp.responseText " + YoXmlHttp.responseText)
-                if(YoXmlHttp.responseText == "{}") {
+                if (YoXmlHttp.responseText == "{}") {
                     console.log("YoXmlHttp.responseText == ")
                     var x = document.getElementById("snackbar");
                     x.className = "show";
@@ -382,8 +382,11 @@ function yo_get(url, body, callback) {
             }
             else {
                 callback({}, '');
-                if(YoXmlHttp.status == 403) {
+                if (YoXmlHttp.status == 403) {
                     var x = document.getElementById("snackbar_cp");
+                    x.className = "show";
+                } else if (YoXmlHttp.status == 404) {
+                    var x = document.getElementById("snackbar");
                     x.className = "show";
                 } else {
                     var x = document.getElementById("error");
