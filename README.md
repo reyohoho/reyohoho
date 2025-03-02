@@ -1,13 +1,42 @@
-# ReYohoho
-[Desktop App](https://github.com/reyohoho/reyohoho-desktop)
+# reyohoho
 
-# Mirrors
-[reyohoho.github.io/reyohoho](https://reyohoho.github.io/reyohoho)
+This template should help get you started developing with Vue 3 in Vite.
 
-[reyohoho.vercel.app](https://reyohoho.vercel.app)
+## Recommended IDE Setup
 
-[reyohoho.onrender.com](https://reyohoho.onrender.com)
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-[reyohoho.serv00.net](https://reyohoho.serv00.net)
+## Customize configuration
 
-[reyohoho.surge.sh](https://reyohoho.surge.sh)
+See [Vite Configuration Reference](https://vitejs.dev/config/).
+
+## Project Setup
+
+```sh
+npm install
+```
+
+### Compile and Hot-Reload for Development
+
+```sh
+npm run dev
+```
+
+### Compile and Minify for Production
+
+```sh
+npm run build
+```
+
+### Run Unit Tests with [Vitest](https://vitest.dev/)
+
+```sh
+npm run test:unit
+```
+
+### Lint with [ESLint](https://eslint.org/)
+
+```sh
+npm run lint
+```
+# new-reyohoho-frontend
