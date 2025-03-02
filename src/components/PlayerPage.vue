@@ -25,7 +25,7 @@
           <span>Плеер: </span>
           <select v-model="selectedPlayer" id="player-select">
             <option v-for="(player, index) in players" :key="index" :value="player">
-              {{ player.translate }}
+              {{ player.translate.toUpperCase() }}
             </option>
           </select>
         </div>
@@ -33,14 +33,8 @@
         <!-- Плеер -->
         <div v-if="selectedPlayer" class="player-container">
           <div class="iframe-container">
-            <iframe
-              v-show="!iframeLoading"
-              :src="selectedPlayer.iframe"
-              frameborder="0"
-              @load="onIframeLoad"
-              allowfullscreen
-              class="responsive-iframe"
-            ></iframe>
+            <iframe v-show="!iframeLoading" :src="selectedPlayer.iframe" frameborder="0" @load="onIframeLoad"
+              allowfullscreen class="responsive-iframe"></iframe>
           </div>
           <!-- Спиннер загрузки -->
           <div v-if="iframeLoading" class="spinner"></div>
@@ -87,10 +81,6 @@ export default {
       iframeLoading.value = false;
     };
 
-    const sortPlayersAlphabetically = (players) => {
-      return players.sort((a, b) => a.translate.localeCompare(b.translate));
-    };
-
     const fetchMovieInfo = async () => {
       try {
         const response = await axios.get(`${apiUrl}/kp_info/${movieId.value}`);
@@ -104,7 +94,7 @@ export default {
       loading.value = true;
       errorMessage.value = '';
       try {
-        const response = await axios.post(`${apiUrl}/cache`, 
+        const response = await axios.post(`${apiUrl}/cache`,
           new URLSearchParams({
             kinopoisk: movieId.value,
             type: 'movie',
@@ -114,13 +104,15 @@ export default {
           }
         );
 
-        const sortedPlayers = sortPlayersAlphabetically(Object.values(response.data));
+        const sortedPlayers = Object.values(response.data);
         players.value = sortedPlayers;
         selectedPlayer.value = players.value[0];
         iframeLoading.value = true;
       } catch (error) {
         if (error.response && error.response.status === 403) {
           errorMessage.value = 'Упс, у нас это недоступно =(';
+        } if (error.response && error.response.status === 404) {
+          errorMessage.value = 'Не найдено';
         } else {
           errorMessage.value = 'Произошла ошибка при загрузке данных. Пожалуйста, попробуйте позже.';
         }
@@ -276,8 +268,13 @@ export default {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .movie-info {
@@ -312,7 +309,7 @@ export default {
 }
 
 @media (max-width: 600px) {
-  .movie-card{
+  .movie-card {
     padding: 10px;
   }
 
@@ -339,33 +336,33 @@ export default {
     font-size: 14px;
   }
 
-#player-select {
-  width: 100%;
-}
+  #player-select {
+    width: 100%;
+  }
 
-.player-container {
-  position: relative;
-  width: 100%;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
+  .player-container {
+    position: relative;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
 
-.iframe-container {
-  position: relative;
-  width: 100%;
-  padding-top: 56.25%;
-  height: 0;
-  overflow: hidden;
-}
+  .iframe-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    height: 0;
+    overflow: hidden;
+  }
 
-.responsive-iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-}
+  .responsive-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
 }
 </style>
